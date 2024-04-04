@@ -28,7 +28,6 @@ html {
   background-color:rgb(171, 187, 255);
   border-radius: 15px;
 }
-
 .sidebar{
   width: 10%;
   height: 98%;
@@ -37,19 +36,34 @@ html {
   background-color: white;
   border-radius: 15px;
 }
-.event-view{
-  flex-grow: 1;
+.column-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 98%;
+  width: 25%;
+  margin-right: 10px;
+}
+.calendar{
+  height: 98%;
+  flex: 1;
   margin-left: 10px;
   margin-right: 10px;
 
   background-color: white;
   border-radius: 15px;
 }
+.event-list{
+  flex: 1;
+  width: 100%;
+
+  background-color: white;
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
 .event-data{
-  width: 25%;
-  height: 98%;
-  margin-right: 10px;
+  flex: 1;
+  width: 100%;
 
   background-color: white;
   border-radius: 15px;
