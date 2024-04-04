@@ -15,8 +15,42 @@ html {
 html {
   position: relative;
   min-height: 100%;
+  overflow-y: hidden;
 }
 
-body {
-  margin-bottom: 60px;
+.main-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 88vh;
+  width: 100%;
+
+  background-color:rgb(171, 187, 255);
+  border-radius: 15px;
+}
+
+.sidebar{
+  width: 10%;
+  height: 98%;
+  margin-left: 10px;
+  
+  background-color: white;
+  border-radius: 15px;
+}
+.event-view{
+  flex-grow: 1;
+  height: 98%;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  background-color: white;
+  border-radius: 15px;
+}
+.event-data{
+  width: 25%;
+  height: 98%;
+  margin-right: 10px;
+
+  background-color: white;
+  border-radius: 15px;
 }
