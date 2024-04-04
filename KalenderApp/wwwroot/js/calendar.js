@@ -2,7 +2,8 @@
 
 const currentDate = document.querySelector(".current-date"),
     daysTag = document.querySelector(".days"),
-    prevNextIcon = document.querySelectorAll(".icons span");
+    prevNextIcon = document.querySelectorAll(".icons span"),
+    days = document.querySelector(".calendar .days");
 
 
 let date = new Date(),
@@ -52,3 +53,10 @@ prevNextIcon.forEach(icon => {
         renderCalender();
     })
 });
+
+days.addEventListener("click", function (event) {
+    if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
+        let dateSelected = event.target.innerText;
+        console.log(`${dateSelected} ${months[currentMonth]} ${currentYear}`);
+    }
+})
