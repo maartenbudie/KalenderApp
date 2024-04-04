@@ -1,4 +1,4 @@
-﻿const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+﻿const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "spooky", "November", "December"];
 
 const currentDate = document.querySelector(".current-date"),
     daysTag = document.querySelector(".days"),
@@ -10,7 +10,7 @@ let date = new Date(),
     currentYear = date.getFullYear(),
     currentMonth = date.getMonth();
 
-const renderCalender = () => {
+const renderCalendar = () => {
     let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(), // get first day of month (mon, tue etc.) | get amount of overflow days
         lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate(), // get last date of month | get amount of days in month
         lastDateOfLastMonth = new Date(currentYear, currentMonth, 0).getDate(), // get last date of last month | get amount of days in last month
@@ -31,7 +31,7 @@ const renderCalender = () => {
     currentDate.innerText = `${months[currentMonth]} ${currentYear}`;
     daysTag.innerHTML = liTag;
 }
-renderCalender();
+renderCalendar();
 
 prevNextIcon.forEach(icon => {
     icon.addEventListener("click", () => {
@@ -50,7 +50,7 @@ prevNextIcon.forEach(icon => {
         else {
             date = new Date();
         }
-        renderCalender();
+        renderCalendar();
     })
 });
 
