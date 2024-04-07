@@ -31,32 +31,41 @@ const renderCalendar = () => {
     currentDate.innerText = `${months[currentMonth]} ${currentYear}`;
     daysTag.innerHTML = liTag;
 }
-renderCalendar();
 
-prevNextIcon.forEach(icon => {
-    icon.addEventListener("click", () => {
-        if (icon.id == "prev") {
-            currentMonth -= 1;
-        }
-        else {
-            currentMonth += 1;
-        }
+const cycleMonth = (icon) => {
+    if (icon.id == "prev") {
+        currentMonth -= 1;
+    }
+    else {
+        currentMonth += 1;
+    }
 
-        if (currentMonth < 0 || currentMonth > 11) {
-            date = new Date(currentYear, currentMonth);
-            currentYear = date.getFullYear();
-            currentMonth = date.getMonth();
-        }
-        else {
-            date = new Date();
-        }
-        renderCalendar();
-    })
-});
+    if (currentMonth < 0 || currentMonth > 11) {
+        date = new Date(currentYear, currentMonth);
+        currentYear = date.getFullYear();
+        currentMonth = date.getMonth();
+    }
+    else {
+        date = new Date();
+    }
+    renderCalendar();
+}
 
-days.addEventListener("click", function (event) {
+const selectDay = () => {
     if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
         let dateSelected = event.target.innerText;
         console.log(`${dateSelected} ${months[currentMonth]} ${currentYear}`);
     }
+}
+
+prevNextIcon.forEach(icon => {
+    icon.addEventListener("click", () => {
+        cycleMonth(icon);
+    })
+});
+
+days.addEventListener("click", function (event) {
+    selectDay();
 })
+
+renderCalendar();
