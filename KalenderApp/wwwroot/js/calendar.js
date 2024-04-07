@@ -51,7 +51,7 @@ const cycleMonth = (icon) => {
     renderCalendar();
 }
 
-const selectDay = () => {
+const selectDay = (event) => {
     if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
         let dateSelected = event.target.innerText;
         console.log(`${dateSelected} ${months[currentMonth]} ${currentYear}`);
@@ -65,7 +65,7 @@ prevNextIcon.forEach(icon => {
 });
 
 days.addEventListener("click", function (event) {
-    selectDay();
+    selectDay(event);
 })
 
 renderCalendar();
