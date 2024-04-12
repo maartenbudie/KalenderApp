@@ -1,4 +1,6 @@
-﻿namespace KalenderApp.DAL
+﻿using System.Data.SqlClient;
+
+namespace KalenderApp.DAL
 {
     public class EventData
     {
