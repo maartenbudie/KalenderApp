@@ -1,4 +1,4 @@
-using KalenderApp.CORE;
+using KalenderApp.Core;
 
 namespace KalenderApp.DAL;
 
