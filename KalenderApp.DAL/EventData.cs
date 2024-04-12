@@ -1,8 +1,9 @@
 ﻿using System.Data.SqlClient;
+using KalenderApp.Core;
 
 namespace KalenderApp.DAL
 {
-    public class EventData
+    public class EventData : IEventData
     {
         private int id;
         private int organiserId;
