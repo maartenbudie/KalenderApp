@@ -6,7 +6,7 @@ namespace KalenderApp.DAL
     {
         private int id;
         private int organiserId;
-        private string name;
+        private string name = "";
         private DateTime startTime;
         private DateTime endTime;
         private string? location;
