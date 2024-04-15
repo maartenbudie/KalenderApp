@@ -151,10 +151,39 @@ header .icons span:hover{
   border-radius: 15px;
   margin-bottom: 10px;
 }
+.event-list h{
+  font-size: 1.45rem;
+  font-weight: 500;
+  padding: 20px;
+}
 .event-data{
   flex: 1;
   width: 100%;
 
   background-color: white;
   border-radius: 15px;
+}
+.events{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  margin-left: 20px;
+  list-style-type: none;
+}
+.events li{
+  padding: 6px;
+  margin: 6px;
+  font-size: 1.2rem;
+  background: rgb(194, 202, 240);
+  width: calc(80%);
+  border-radius: 12px;
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.events li:hover{
+  background:rgb(101, 122, 214);
 }

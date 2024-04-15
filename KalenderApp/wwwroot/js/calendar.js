@@ -54,6 +54,9 @@ const cycleMonth = (icon) => {
 const selectDay = (event) => {
     if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
         let dateSelected = event.target.innerText;
+        let headerTag = document.querySelector(".event-list h");
+
+        headerTag.innerText = `${dateSelected} ${months[currentMonth]} ${currentYear}`;
         console.log(`${dateSelected} ${months[currentMonth]} ${currentYear}`);
     }
 }
