@@ -30,6 +30,9 @@ const renderCalendar = () => {
 
     currentDate.innerText = `${months[currentMonth]} ${currentYear}`;
     daysTag.innerHTML = liTag;
+
+    let headerTag = document.querySelector(".event-list h");
+    headerTag.innerText = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
 const cycleMonth = (icon) => {
@@ -53,31 +56,37 @@ const cycleMonth = (icon) => {
 
 const selectDay = (event) => {
     if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
-        let dateSelected = event.target.innerText;
-        let headerTag = document.querySelector(".event-list h");
-
-        headerTag.innerText = `${dateSelected} ${months[currentMonth]} ${currentYear}`;
-        console.log(`${dateSelected} ${months[currentMonth]} ${currentYear}`);
-
-        $.ajax({
-            type: "POST",
-            url: "/Home/getAllEvents",
-            data: "{}",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(data){
-                console.log(data);
-
-                var eventList = document.querySelector(".events");
-
-                for(let i = 0; i < data.events.length; i++){
-                    eventList.innerHTML += (`
-                        <li>${data.events[i].name}</li>
-                    `);
-                }
-            }
-        })
+        showDateData();
     }
+}
+
+const showDateData = () => {
+    let dateSelected = event.target.innerText;
+    let headerTag = document.querySelector(".event-list h");
+
+    headerTag.innerText = `${dateSelected} ${months[currentMonth]} ${currentYear}`;
+    console.log(`${dateSelected} ${months[currentMonth]} ${currentYear}`);
+
+    $.ajax({
+        type: "POST",
+        url: "/Home/getAllEvents",
+        data: "{}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data){
+            console.log(data);
+
+            var eventList = document.querySelector(".events");
+            var eventListHtml = "";
+
+            for(let i = 0; i < data.events.length; i++){
+                eventListHtml += (`
+                <li>${data.events[i].name}</li>
+                `);
+                eventList.innerHTML = eventListHtml;
+            }
+        }
+    })
 }
 
 prevNextIcon.forEach(icon => {
