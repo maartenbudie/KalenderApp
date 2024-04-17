@@ -25,7 +25,8 @@ namespace KalenderApp.Controllers
             return View();
         }
 
-        public List<EventLogic> getAllEvents(){
+        [HttpPost]
+        public IActionResult getAllEvents(){
             IEventData eventData = new EventData();
 
             List<EventDTO> eventDTOs = eventData.getAllEvents();
@@ -35,8 +36,7 @@ namespace KalenderApp.Controllers
                 EventLogic eventLogic = new EventLogic(eventDTO);
                 events.Add(eventLogic);
             }
-
-            return events;
+            return Json(events);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

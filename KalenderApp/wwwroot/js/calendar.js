@@ -55,6 +55,17 @@ const selectDay = (event) => {
     if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
         let dateSelected = event.target.innerText;
         console.log(`${dateSelected} ${months[currentMonth]} ${currentYear}`);
+
+        $.ajax({
+            type: "POST",
+            url: "KalenderApp/Controllers/HomeController.cs",
+            data: "{}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(eventData){
+                console.table(eventData);
+            }
+        })
     }
 }
 
