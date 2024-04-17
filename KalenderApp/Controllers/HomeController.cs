@@ -32,8 +32,6 @@ namespace KalenderApp.Controllers
 
             List<object> events = new List<object>();
 
-            string repetition;
-
             foreach(EventDTO eventDTO in eventDTOs){
                 var _event = new {
                     id = eventDTO.id,
