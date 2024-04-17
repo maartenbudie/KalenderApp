@@ -65,8 +65,16 @@ const selectDay = (event) => {
             data: "{}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(eventData){
-                console.table(eventData);
+            success: function(data){
+                console.log(data);
+
+                var eventList = document.querySelector(".events");
+
+                for(let i = 0; i < data.events.length; i++){
+                    eventList.innerHTML += (`
+                        <li>${data.events[i].name}</li>
+                    `);
+                }
             }
         })
     }
