@@ -58,7 +58,7 @@ const selectDay = (event) => {
 
         $.ajax({
             type: "POST",
-            url: "KalenderApp/Controllers/HomeController.cs",
+            url: "/Home/getAllEvents",
             data: "{}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",

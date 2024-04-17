@@ -28,15 +28,26 @@ namespace KalenderApp.Controllers
         [HttpPost]
         public IActionResult getAllEvents(){
             IEventData eventData = new EventData();
-
             List<EventDTO> eventDTOs = eventData.getAllEvents();
-            List<EventLogic> events = new List<EventLogic>();
+
+            List<object> events = new List<object>();
+
+            string repetition;
 
             foreach(EventDTO eventDTO in eventDTOs){
-                EventLogic eventLogic = new EventLogic(eventDTO);
-                events.Add(eventLogic);
+                var _event = new {
+                    id = eventDTO.id,
+                    organiserId = eventDTO.organiserId,
+                    name = eventDTO.name,
+                    start_time = Convert.ToString(eventDTO.startTime),
+                    end_time = Convert.ToString(eventDTO.endTime),
+                    location = eventDTO.location,
+                    repetition = Convert.ToString(eventDTO.repetition)
+                };
+
+                events.Add(_event);
             }
-            return Json(events);
+            return Json(new{events});
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
