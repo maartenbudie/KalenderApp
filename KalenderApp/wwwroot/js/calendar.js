@@ -8,7 +8,9 @@ const currentDate = document.querySelector(".current-date"),
 
 let date = new Date(),
     currentYear = date.getFullYear(),
-    currentMonth = date.getMonth();
+    currentMonth = date.getMonth(),
+    eventCount = 0,
+    loadedEvents = [];
 
 const renderCalendar = () => {
     let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(), // get first day of month (mon, tue etc.) | get amount of overflow days
@@ -74,16 +76,25 @@ const showDateData = () => {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(data){
-            console.log(data);
+            loadedEvents.length = 0;
+            eventCount = 0;
 
             var eventList = document.querySelector(".events");
             var eventListHtml = "";
 
             for(let i = 0; i < data.events.length; i++){
                 eventListHtml += (`
-                <li>${data.events[i].name}</li>
+                <li id="${eventCount}">${data.events[i].name}</li>
                 `);
                 eventList.innerHTML = eventListHtml;
+                eventCount++;
+                loadedEvents[loadedEvents.length] = data.events[i];
+
+                eventList.addEventListener("click", () => {
+                    if(event.target.tagName === "LI"){
+                        console.log("wawawawawawawawawa");
+                    }
+                })
             }
         }
     })
