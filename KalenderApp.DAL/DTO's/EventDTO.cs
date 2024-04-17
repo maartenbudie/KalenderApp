@@ -1,6 +1,6 @@
 namespace KalenderApp.DAL;
 
-public abstract class EventDTO
+public class EventDTO
 {
     public int id { get; private set; }
     public int organiserId { get; private set; }

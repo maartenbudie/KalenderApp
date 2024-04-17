@@ -5,22 +5,29 @@ namespace KalenderApp.DAL
 {
     public class EventData : IEventData
     {
-        public List<int> getAllEventIDs()
+        public List<EventDTO> getAllEvents()
         {
-            int id;
-            List<int> eventIDs = new List<int>();
+            List<EventDTO> events = new List<EventDTO>();
 
             try{
                 using(SqlConnection connection = new SqlConnection(DatabaseClass.connectionString))
                 {
-                    string query = "SELECT id FROM event";
+                    string query = "SELECT * FROM event";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read()){
-                        id = Convert.ToInt32(reader["ID"]);
-                        eventIDs.Add(id);
+                        int id = Convert.ToInt32(reader["id"]);
+                        int category_id = Convert.ToInt32(reader["category_id"]);
+                        string name = Convert.ToString(reader["name"]);
+                        DateTime start_time = DateTime.Parse(Convert.ToString(reader["start_time"]));
+                        DateTime end_time = DateTime.Parse(Convert.ToString(reader["end_time"]));
+                        string location = Convert.ToString(reader["location"]);
+                        Repetition repetition = (Repetition)Enum.Parse(typeof(string), Convert.ToString(reader["repetition"]), true);
+
+                        EventDTO eventDTO = new EventDTO(id, category_id, name, start_time, end_time, location, repetition);
+                        events.Add(eventDTO);
                     }
                     reader.Close();
                 }
@@ -28,7 +35,7 @@ namespace KalenderApp.DAL
             catch{
                 Console.WriteLine("Error retrieving data");
             }
-            return eventIDs;
+            return events;
         }
     }
 }
