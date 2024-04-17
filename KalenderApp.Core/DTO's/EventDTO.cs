@@ -1,4 +1,4 @@
-namespace KalenderApp.DAL;
+namespace KalenderApp.Core;
 
 public class EventDTO
 {

@@ -1,4 +1,4 @@
-namespace KalenderApp.DAL.DTO;
+namespace KalenderApp.Core;
 
 public class ReminderDTO
 {
