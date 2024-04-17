@@ -9,4 +9,14 @@ public class Event
     private DateTime endTime;
     private string? location;
     private Repetition? repetition;
+
+    public Event(EventDTO eventDTO){
+        this.id = eventDTO.id;
+        this.organiserId = eventDTO.organiserId;
+        this.name = eventDTO.name;
+        this.startTime = eventDTO.startTime;
+        this.endTime = eventDTO.endTime;
+        this.location = eventDTO.location;
+        this.repetition = eventDTO.repetition;
+    }
 }
