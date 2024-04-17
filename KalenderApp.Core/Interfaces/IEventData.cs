@@ -2,6 +2,6 @@
 
 public interface IEventData
 {
-    public List<int> getAllEventIDs();
+    public List<EventDTO> getAllEvents();
 }
 
