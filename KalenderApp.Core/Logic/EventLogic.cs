@@ -1,6 +1,6 @@
 namespace KalenderApp.Core;
 
-public class EventLogicLogic
+public class EventLogic
 {
     private int id;
     private int organiserId;
@@ -10,7 +10,7 @@ public class EventLogicLogic
     private string? location;
     private Repetition? repetition;
 
-    public EventLogicLogic(EventLogicDTO eventDTO){
+    public EventLogic(EventDTO eventDTO){
         this.id = eventDTO.id;
         this.organiserId = eventDTO.organiserId;
         this.name = eventDTO.name;
