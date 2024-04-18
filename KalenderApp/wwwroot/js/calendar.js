@@ -67,20 +67,18 @@ const showDateData = () => {
     let headerTag = document.querySelector(".event-list h");
 
     headerTag.innerText = `${dateSelected} ${months[currentMonth]} ${currentYear}`;
-    console.log(`${dateSelected} ${months[currentMonth]} ${currentYear}`);
-
+    
     $.ajax({
         type: "POST",
         url: "/Home/getAllEvents",
-        data: "{}",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
+        data: {date: dateSelected, month: currentMonth, year: currentYear},
         success: function(data){
             loadedEvents.length = 0;
             eventCount = 0;
 
             var eventList = document.querySelector(".events");
             var eventListHtml = "";
+
 
             for(let i = 0; i < data.events.length; i++){
                 eventListHtml += (`

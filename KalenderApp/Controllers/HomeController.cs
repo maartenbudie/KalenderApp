@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using KalenderApp.Core;
 using KalenderApp.DAL;
+using System.Text.Json.Nodes;
 
 namespace KalenderApp.Controllers
 {
@@ -26,7 +27,11 @@ namespace KalenderApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult getAllEvents(){
+        public IActionResult getAllEvents(int date, int month, int year){
+            string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+            DateTime dateTime = DateTime.Parse($"{date} {months[month]} {year}");
+            Console.WriteLine(dateTime);
+
             IEventData eventData = new EventData();
             List<EventDTO> eventDTOs = eventData.getAllEvents();
 
