@@ -8,8 +8,7 @@ namespace KalenderApp.DAL
         public List<EventDTO> getEventsForDay(DateTime dateTime)
         {
             List<EventDTO> events = new List<EventDTO>();
-
-            dateTime = dateTime.Date;
+            Console.WriteLine(dateTime.Date);
 
             try
             {
@@ -35,9 +34,9 @@ namespace KalenderApp.DAL
                     reader.Close();
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                Console.WriteLine("Error retrieving data");
+                Console.WriteLine(ex.Message);
             }
             return events;
         }
