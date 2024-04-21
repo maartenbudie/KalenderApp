@@ -2,6 +2,5 @@
 
 public interface IEventData
 {
-    public List<EventDTO> getEventsForDay();
+    public List<EventDTO> getEventsForDay(DateTime dateTime);
 }
-
