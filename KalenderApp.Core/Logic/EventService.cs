@@ -15,6 +15,6 @@ public class EventService
 
     public List<EventDTO> getEventsForDay(IEventData eventData, DateTime dateTime)
     {
-        return eventData.getEventsForDay();
+        return eventData.getEventsForDay(dateTime);
     }
 }
