@@ -5,7 +5,7 @@ namespace KalenderApp.DAL
 {
     public class EventData : IEventData
     {
-        public List<EventDTO> getAllEvents()
+        public List<EventDTO> getEventsForDay()
         {
             List<EventDTO> events = new List<EventDTO>();
 

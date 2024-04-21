@@ -33,7 +33,9 @@ namespace KalenderApp.Controllers
             Console.WriteLine(dateTime);
 
             IEventData eventData = new EventData();
-            List<EventDTO> eventDTOs = eventData.getAllEvents();
+            EventService eventService = new EventService();
+
+            List<EventDTO> eventDTOs = eventService.getEventsForDay(eventData, dateTime);
 
             List<object> events = new List<object>();
 
