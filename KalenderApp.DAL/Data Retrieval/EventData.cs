@@ -14,7 +14,7 @@ namespace KalenderApp.DAL
             {
                 using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
                 {
-                    string query = $"SELECT * FROM event WHERE DATE(start_time) = DATE(@dateTime)";
+                    string query = "SELECT * FROM event WHERE DATE(start_time) = DATE(@dateTime)";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@dateTime", dateTime);
                     connection.Open();
@@ -40,6 +40,31 @@ namespace KalenderApp.DAL
                 Console.WriteLine(ex.Message);
             }
             return events;
+        }
+
+        public void addNewEvent(EventDTO dto){
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
+                {
+                    string query = "INSERT INTO event (category_id, name, start_time, end_time, location, repetition) VALUES (@category_id, @name, @start_time, @end_time, @location, @repetition)";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+
+                    command.Parameters.AddWithValue("@category_id", 1); //temporary, need to implement category data first
+                    command.Parameters.AddWithValue("@name", dto.name);
+                    command.Parameters.AddWithValue("@start_time", dto.startTime);
+                    command.Parameters.AddWithValue("@end_time", dto.endTime);
+                    command.Parameters.AddWithValue("@location", dto.location);
+                    command.Parameters.AddWithValue("@repetition", dto.repetition);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
