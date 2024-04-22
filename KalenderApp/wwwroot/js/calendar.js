@@ -77,7 +77,9 @@ const showDateData = () => {
             eventCount = 0;
 
             var eventList = document.querySelector(".events");
+            eventList.innerHTML = "";
             var eventListHtml = "";
+            
 
 
             for(let i = 0; i < data.events.length; i++){
