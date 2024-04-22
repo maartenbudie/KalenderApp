@@ -8,9 +8,9 @@ public class EventDTO
     public DateTime startTime { get; private set; }
     public DateTime endTime { get; private set; }
     public string? location { get; private set; }
-    public Repetition? repetition { get; private set; }
+    public string? repetition { get; private set; }
 
-    public EventDTO(int id, int organiserId, string name, DateTime startTime, DateTime endTime, string? location, Repetition? repetition)
+    public EventDTO(int id, int organiserId, string name, DateTime startTime, DateTime endTime, string? location, string? repetition)
     {
         this.id = id;
         this.organiserId = organiserId;
