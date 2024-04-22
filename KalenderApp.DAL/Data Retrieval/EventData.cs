@@ -50,12 +50,14 @@ namespace KalenderApp.DAL
                     string query = "INSERT INTO event (category_id, name, start_time, end_time, location, repetition) VALUES (@category_id, @name, @start_time, @end_time, @location, @repetition)";
                     MySqlCommand command = new MySqlCommand(query, connection);
 
-                    command.Parameters.AddWithValue("@category_id", 1); //temporary, need to implement category data first
+                    command.Parameters.AddWithValue("@category_id", dto.categoryId);
                     command.Parameters.AddWithValue("@name", dto.name);
                     command.Parameters.AddWithValue("@start_time", dto.startTime);
                     command.Parameters.AddWithValue("@end_time", dto.endTime);
                     command.Parameters.AddWithValue("@location", dto.location);
                     command.Parameters.AddWithValue("@repetition", dto.repetition);
+
+                    Console.WriteLine(dto.categoryId.ToString(), dto.name, dto.startTime, dto.endTime, dto.location, dto.repetition);
 
                     connection.Open();
                     command.ExecuteNonQuery();

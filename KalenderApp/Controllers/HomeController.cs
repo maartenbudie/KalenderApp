@@ -42,7 +42,7 @@ namespace KalenderApp.Controllers
             foreach(EventDTO eventDTO in eventDTOs){
                 var _event = new {
                     id = eventDTO.id,
-                    organiserId = eventDTO.organiserId,
+                    categoryId = eventDTO.categoryId,
                     name = eventDTO.name,
                     start_time = Convert.ToString(eventDTO.startTime),
                     end_time = Convert.ToString(eventDTO.endTime),
@@ -53,6 +53,17 @@ namespace KalenderApp.Controllers
                 events.Add(_event);
             }
             return Json(new{events});
+        }
+        [HttpPost]
+        public void addNewEvent(string name, string startTime, string endTime, string location, string repetition)
+        {
+            DateTime start = DateTime.Parse(startTime);
+            DateTime end = DateTime.Parse(endTime);
+
+            IEventData eventData = new EventData();
+            EventService eventService = new EventService();
+
+            eventService.addNewEvent(name, start, end, location, repetition, eventData);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
