@@ -57,6 +57,8 @@ namespace KalenderApp.Controllers
         [HttpPost]
         public void addNewEvent(string name, string startTime, string endTime, string location, string repetition)
         {
+            try
+            {
             DateTime start = DateTime.Parse(startTime);
             DateTime end = DateTime.Parse(endTime);
 
@@ -64,6 +66,11 @@ namespace KalenderApp.Controllers
             EventService eventService = new EventService();
 
             eventService.addNewEvent(name, start, end, location, repetition, eventData);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
