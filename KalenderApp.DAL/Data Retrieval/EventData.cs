@@ -1,5 +1,5 @@
-﻿using System.Data.SqlClient;
-using KalenderApp.Core;
+﻿using KalenderApp.Core;
+using MySql.Data.MySqlClient;
 
 namespace KalenderApp.DAL
 {
@@ -12,13 +12,13 @@ namespace KalenderApp.DAL
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(DatabaseClass.connectionString))
+                using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
                 {
-                    string query = $"SELECT * FROM event WHERE CONVERT(date, start_time) = @dateTime";
-                    SqlCommand command = new SqlCommand(query, connection);
+                    string query = $"SELECT * FROM event WHERE DATE(start_time) = DATE(@dateTime)";
+                    MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@dateTime", dateTime);
                     connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();                 
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         int id = Convert.ToInt32(reader["id"]);
@@ -27,7 +27,8 @@ namespace KalenderApp.DAL
                         DateTime start_time = DateTime.Parse(Convert.ToString(reader["start_time"]));
                         DateTime end_time = DateTime.Parse(Convert.ToString(reader["end_time"]));
                         string location = Convert.ToString(reader["location"]);
-                        Repetition repetition = (Repetition)Enum.Parse(typeof(string), Convert.ToString(reader["repetition"]), true);                        
+                        string repetition = Convert.ToString(reader["repetition"]);
+
                         EventDTO eventDTO = new EventDTO(id, category_id, name, start_time, end_time, location, repetition);
                         events.Add(eventDTO);
                     }
