@@ -11,7 +11,7 @@ let date = new Date(),
     currentMonth = date.getMonth(),
     eventCount = 0,
     loadedEvents = [],
-    dateSelected = "";
+    dateSelected = date.getDate();
 
 const renderCalendar = () => {
     let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(), // get first day of month (mon, tue etc.) | get amount of overflow days
@@ -59,12 +59,12 @@ const cycleMonth = (icon) => {
 
 const selectDay = (event) => {
     if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
+        dateSelected = event.target.innerText;
         showDateData();
     }
 }
 
 const showDateData = () => {
-    dateSelected = event.target.innerText;
     let headerTag = document.querySelector(".event-list h");
 
     headerTag.innerText = `${dateSelected} ${months[currentMonth]} ${currentYear}`;
@@ -128,7 +128,10 @@ const addEvent = () => {
     $.ajax({
         type: "POST",
         url: "/Home/addNewEvent",
-        data: {name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition}
+        data: {name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition},
+        success: function(){
+            showDateData();
+        }
     });
 }
 
@@ -143,3 +146,4 @@ days.addEventListener("click", function (event) {
 })
 
 renderCalendar();
+showDateData();
