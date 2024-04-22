@@ -187,3 +187,13 @@ header .icons span:hover{
 .events li:hover{
   background:rgb(101, 122, 214);
 }
+.addeventform{
+  visibility: visible;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px; /* add rounded corners */
+  border: 1px solid #ccc; /* add a border for visual distinction */
+  width: 90%; /* adjust width as needed */
+  max-width: 400px; /* limit the maximum width for better readability */
+  margin: 0 auto; /* center the form horizontally */
+}

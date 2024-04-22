@@ -10,7 +10,8 @@ let date = new Date(),
     currentYear = date.getFullYear(),
     currentMonth = date.getMonth(),
     eventCount = 0,
-    loadedEvents = [];
+    loadedEvents = [],
+    dateSelected = "";
 
 const renderCalendar = () => {
     let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(), // get first day of month (mon, tue etc.) | get amount of overflow days
@@ -63,7 +64,7 @@ const selectDay = (event) => {
 }
 
 const showDateData = () => {
-    let dateSelected = event.target.innerText;
+    dateSelected = event.target.innerText;
     let headerTag = document.querySelector(".event-list h");
 
     headerTag.innerText = `${dateSelected} ${months[currentMonth]} ${currentYear}`;
@@ -80,8 +81,6 @@ const showDateData = () => {
             eventList.innerHTML = "";
             var eventListHtml = "";
             
-
-
             for(let i = 0; i < data.events.length; i++){
                 eventListHtml += (`
                 <li id="${eventCount}">${data.events[i].name}</li>
@@ -98,6 +97,39 @@ const showDateData = () => {
             }
         }
     })
+}
+
+
+const addEventForm = document.querySelector(".addeventform");
+addEventForm.addEventListener('submit', () => {
+    addEvent();
+});
+
+const addEvent = () => {
+    event.preventDefault();
+
+    const eventName = addEventForm.querySelector('#eventname').value;
+    const eventStartTime = addEventForm.querySelector('#eventstarttime').value;
+    const eventEndTime = addEventForm.querySelector('#eventendtime').value;
+    const eventLocation = addEventForm.querySelector('#eventlocation').value;
+    const eventRepetition = addEventForm.querySelector('#eventrepetition').value;
+
+    let startDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventStartTime}`;
+    let endDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventEndTime}`;
+
+    console.log('Event Name:', eventName);
+    console.log('Start Time:', startDate);
+    console.log('End Time:', endDate);
+    console.log('Location:', eventLocation);
+    console.log('Repetition:', eventRepetition);
+
+    addEventForm.reset();
+
+    $.ajax({
+        type: "POST",
+        url: "/Home/addNewEvent",
+        data: {name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition}
+    });
 }
 
 prevNextIcon.forEach(icon => {
