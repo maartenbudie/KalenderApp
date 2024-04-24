@@ -68,5 +68,30 @@ namespace KalenderApp.DAL
                 Console.WriteLine(ex.Message);
             }
         }
+        public void editEvent(EventDTO dto){
+            try
+            {
+                using(MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
+                {
+                    string query = "UPDATE event SET category_id = @category_id, name = @name, start_time = @start_time, end_time = @end_time, location = @location, repetition = @repetition WHERE id = @id";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+
+                    command.Parameters.AddWithValue("@id", dto.id);
+                    command.Parameters.AddWithValue("@category_id", dto.categoryId);
+                    command.Parameters.AddWithValue("@name", dto.name);
+                    command.Parameters.AddWithValue("@start_time", dto.startTime);
+                    command.Parameters.AddWithValue("@end_time", dto.endTime);
+                    command.Parameters.AddWithValue("@location", dto.location);
+                    command.Parameters.AddWithValue("@repetition", dto.repetition);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }

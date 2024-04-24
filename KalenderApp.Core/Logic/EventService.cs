@@ -17,7 +17,7 @@ public class EventService
     }
     public void editEvent(int id, string name, DateTime start, DateTime end, string location, string repetition, IEventData eventData)
     {
-        EventDTO eventDTO = new EventDTO(id, 1 /*temporary*/, start, end, location, repetition);
+        EventDTO eventDTO = new EventDTO(id, 1 /*temporary*/, name, start, end, location, repetition);
 
         eventData.editEvent(eventDTO);
     }
