@@ -111,7 +111,7 @@ const addEventForm = document.querySelector(".addeventform");
 
 const selectEvent = (id) => {
     var selectedEvent = loadedEvents[id];
-    selectedEventId = id;
+    selectedEventId = selectedEvent.id;
     
     document.getElementById("editeventname").value = selectedEvent.name;
     document.getElementById("editeventstarttime").value = selectedEvent.start_time;
