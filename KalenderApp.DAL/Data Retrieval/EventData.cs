@@ -93,5 +93,25 @@ namespace KalenderApp.DAL
                 Console.WriteLine(ex.Message);
             }
         }
+        public void deleteEvent(int id)
+        {
+            try
+            {
+                using(MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
+                {
+                    string query = "DELETE FROM event WHERE id = @id";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+
+                    command.Parameters.AddWithValue("@id", id);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }

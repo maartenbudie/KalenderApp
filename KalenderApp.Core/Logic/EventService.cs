@@ -21,4 +21,8 @@ public class EventService
 
         eventData.editEvent(eventDTO);
     }
+    public void deleteEvent(int id, IEventData eventData)
+    {
+        eventData.deleteEvent(id);
+    }
 }

@@ -95,6 +95,22 @@ namespace KalenderApp.Controllers
             }
         }
 
+        [HttpPost]
+        public void deleteEvent(int id)
+        {
+            try
+            {
+                IEventData eventData = new EventData();
+                EventService eventService = new EventService();
+
+                eventService.deleteEvent(id, eventData);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }   
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
