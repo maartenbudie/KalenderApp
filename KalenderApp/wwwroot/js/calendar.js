@@ -76,7 +76,7 @@ const showDateData = () => {
     
     $.ajax({
         type: "POST",
-        url: "/Home/getAllEvents",
+        url: "/Home/GetAllEventsForDate",
         data: {date: dateSelected, month: currentMonth, year: currentYear},
         success: function(data){
             loadedEvents.length = 0;
@@ -153,7 +153,7 @@ const editEvent= () => {
 
     $.ajax({
         type: "POST",
-        url: "/Home/editEvent",
+        url: "/Home/EditEvent",
         data: {id: selectedEventId, name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition},
         success: function(){
             showDateData();
@@ -177,7 +177,7 @@ const addEvent = () => {
 
     $.ajax({
         type: "POST",
-        url: "/Home/addNewEvent",
+        url: "/Home/AddNewEvent",
         data: {name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition},
         success: function(){
             showDateData();
@@ -190,7 +190,7 @@ const addEvent = () => {
 const deleteEvent = () => {
     $.ajax({
         type: "POST",
-        url: "/Home/deleteEvent",
+        url: "/Home/DeleteEvent",
         data: {id: selectedEventId},
         success: function(){
             showDateData();

@@ -2,8 +2,8 @@
 
 public interface IEventData
 {
-    public List<EventDTO> getEventsForDay(DateTime dateTime);
-    public void addNewEvent(EventDTO eventDTO);
-    public void editEvent(EventDTO eventDTO);
-    public void deleteEvent(int id);
+    public List<EventDTO> GetEventsForDay(DateTime dateTime);
+    public void AddNewEvent(EventDTO eventDTO);
+    public void EditEvent(EventDTO eventDTO);
+    public void DeleteEvent(int id);
 }

@@ -27,16 +27,16 @@ namespace KalenderApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult getAllEvents(int date, int month, int year)
+        public IActionResult GetAllEventsForDate(int date, int month, int year)
         {
             string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
             DateTime dateTime = DateTime.Parse($"{date} {months[month]} {year}");
             Console.WriteLine(dateTime);
 
             IEventData eventData = new EventData();
-            EventService eventService = new EventService();
+            EventService eventService = new EventService(eventData);
 
-            List<EventDTO> eventDTOs = eventService.getEventsForDay(eventData, dateTime);
+            List<EventDTO> eventDTOs = eventService.GetEventsForDay(dateTime);
 
             List<object> events = new List<object>();
 
@@ -58,7 +58,7 @@ namespace KalenderApp.Controllers
             return Json(new { events });
         }
         [HttpPost]
-        public void addNewEvent(string name, string startTime, string endTime, string location, string repetition)
+        public void AddNewEvent(string name, string startTime, string endTime, string location, string repetition)
         {
             try
             {
@@ -66,9 +66,9 @@ namespace KalenderApp.Controllers
                 DateTime end = DateTime.Parse(endTime);
 
                 IEventData eventData = new EventData();
-                EventService eventService = new EventService();
+                EventService eventService = new EventService(eventData);
 
-                eventService.addNewEvent(name, start, end, location, repetition, eventData);
+                eventService.AddNewEvent(name, start, end, location, repetition);
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace KalenderApp.Controllers
         }
 
         [HttpPost]
-        public void editEvent(int id, string name, string startTime, string endTime, string location, string repetition)
+        public void EditEvent(int id, string name, string startTime, string endTime, string location, string repetition)
         {
             try
             {
@@ -85,9 +85,9 @@ namespace KalenderApp.Controllers
                 DateTime end = DateTime.Parse(endTime);
 
                 IEventData eventData = new EventData();
-                EventService eventService = new EventService();
+                EventService eventService = new EventService(eventData);
 
-                eventService.editEvent(id, name, start, end, location, repetition, eventData);
+                eventService.EditEvent(id, name, start, end, location, repetition);
             }
             catch(Exception ex)
             {
@@ -96,14 +96,14 @@ namespace KalenderApp.Controllers
         }
 
         [HttpPost]
-        public void deleteEvent(int id)
+        public void DeleteEvent(int id)
         {
             try
             {
                 IEventData eventData = new EventData();
-                EventService eventService = new EventService();
+                EventService eventService = new EventService(eventData);
 
-                eventService.deleteEvent(id, eventData);
+                eventService.DeleteEvent(id);
             }
             catch(Exception ex)
             {

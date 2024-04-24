@@ -5,7 +5,7 @@ namespace KalenderApp.DAL
 {
     public class EventData : IEventData
     {
-        public List<EventDTO> getEventsForDay(DateTime dateTime)
+        public List<EventDTO> GetEventsForDay(DateTime dateTime)
         {
             List<EventDTO> events = new List<EventDTO>();
             Console.WriteLine(dateTime.Date);
@@ -42,7 +42,7 @@ namespace KalenderApp.DAL
             return events;
         }
 
-        public void addNewEvent(EventDTO dto){
+        public void AddNewEvent(EventDTO dto){
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
@@ -68,7 +68,9 @@ namespace KalenderApp.DAL
                 Console.WriteLine(ex.Message);
             }
         }
-        public void editEvent(EventDTO dto){
+
+        //Todo: PascalCase
+        public void EditEvent(EventDTO dto){
             try
             {
                 using(MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
@@ -93,7 +95,7 @@ namespace KalenderApp.DAL
                 Console.WriteLine(ex.Message);
             }
         }
-        public void deleteEvent(int id)
+        public void DeleteEvent(int id)
         {
             try
             {

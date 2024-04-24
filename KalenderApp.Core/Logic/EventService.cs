@@ -2,27 +2,29 @@ namespace KalenderApp.Core;
 
 public class EventService
 {
-    public EventService(){
+    IEventData eventData;
+    public EventService(IEventData eventData){
+        this.eventData = eventData;
     }
 
-    public List<EventDTO> getEventsForDay(IEventData eventData, DateTime dateTime)
+    public List<EventDTO> GetEventsForDay(DateTime dateTime)
     {
-        return eventData.getEventsForDay(dateTime);
+        return eventData.GetEventsForDay(dateTime);
     }
-    public void addNewEvent(string name, DateTime start, DateTime end, string location, string repetition, IEventData eventData)
+    public void AddNewEvent(string name, DateTime start, DateTime end, string location, string repetition)
     {
         EventDTO eventDTO = new EventDTO(1 /*temporary*/, name, start, end, location, repetition);
 
-        eventData.addNewEvent(eventDTO);
+        eventData.AddNewEvent(eventDTO);
     }
-    public void editEvent(int id, string name, DateTime start, DateTime end, string location, string repetition, IEventData eventData)
+    public void EditEvent(int id, string name, DateTime start, DateTime end, string location, string repetition)
     {
         EventDTO eventDTO = new EventDTO(id, 1 /*temporary*/, name, start, end, location, repetition);
 
-        eventData.editEvent(eventDTO);
+        eventData.EditEvent(eventDTO);
     }
-    public void deleteEvent(int id, IEventData eventData)
+    public void DeleteEvent(int id)
     {
-        eventData.deleteEvent(id);
+        eventData.DeleteEvent(id);
     }
 }
