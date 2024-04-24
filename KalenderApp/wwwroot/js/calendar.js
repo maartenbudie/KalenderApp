@@ -5,7 +5,6 @@ const currentDate = document.querySelector(".current-date"),
     prevNextIcon = document.querySelectorAll(".icons span"),
     days = document.querySelector(".calendar .days");
 
-
 let date = new Date(),
     currentYear = date.getFullYear(),
     currentMonth = date.getMonth(),
@@ -15,9 +14,9 @@ let date = new Date(),
     selectedEventId = 0;
 
 const renderCalendar = () => {
-    let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(), // get first day of month (mon, tue etc.) | get amount of overflow days
-        lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate(), // get last date of month | get amount of days in month
-        lastDateOfLastMonth = new Date(currentYear, currentMonth, 0).getDate(), // get last date of last month | get amount of days in last month
+    let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(),
+        lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate(),
+        lastDateOfLastMonth = new Date(currentYear, currentMonth, 0).getDate(),
         lastDayOfMonth = new Date(currentYear, currentMonth, lastDateOfMonth).getDay();
     let liTag = "";
 
@@ -42,8 +41,7 @@ const renderCalendar = () => {
 const cycleMonth = (icon) => {
     if (icon.id == "prev") {
         currentMonth -= 1;
-    }
-    else {
+    } else {
         currentMonth += 1;
     }
 
@@ -51,8 +49,7 @@ const cycleMonth = (icon) => {
         date = new Date(currentYear, currentMonth);
         currentYear = date.getFullYear();
         currentMonth = date.getMonth();
-    }
-    else {
+    } else {
         date = new Date();
     }
     renderCalendar();
@@ -73,31 +70,29 @@ const showDateData = () => {
     let headerTag = document.querySelector(".event-list h");
 
     headerTag.innerText = `${dateSelected} ${months[currentMonth]} ${currentYear}`;
-    
+
     $.ajax({
         type: "POST",
         url: "/Home/GetAllEventsForDate",
-        data: {date: dateSelected, month: currentMonth, year: currentYear},
-        success: function(data){
+        data: { date: dateSelected, month: currentMonth, year: currentYear },
+        success: function(data) {
             loadedEvents.length = 0;
             eventCount = 0;
 
             var eventList = document.querySelector(".events");
             eventList.innerHTML = "";
             var eventListHtml = "";
-            
-            for(let i = 0; i < data.events.length; i++){
+
+            for (let i = 0; i < data.events.length; i++) {
                 eventListHtml += (`
                 <li id="${eventCount}">${data.events[i].name}</li>
                 `);
                 eventList.innerHTML = eventListHtml;
                 eventCount++;
                 loadedEvents[loadedEvents.length] = data.events[i];
-
-                console.log(data.events[i]);
             }
             eventList.addEventListener("click", () => {
-                if(event.target.tagName === "LI"){
+                if (event.target.tagName === "LI") {
                     selectEvent(event.target.id);
                 }
             });
@@ -114,7 +109,7 @@ const deleteEventButton = document.getElementById("deleteeventbutton");
 const selectEvent = (id) => {
     var selectedEvent = loadedEvents[id];
     selectedEventId = selectedEvent.id;
-    
+
     document.getElementById("editeventname").value = selectedEvent.name;
     document.getElementById("editeventstarttime").value = selectedEvent.start_time;
     document.getElementById("editeventendtime").value = selectedEvent.end_time;
@@ -139,7 +134,7 @@ addEventForm.addEventListener('submit', () => {
 editEventForm.addEventListener('submit', () => {
     editEvent();
 });
-const editEvent= () => {
+const editEvent = () => {
     event.preventDefault();
 
     const eventName = editEventForm.querySelector('#editeventname').value;
@@ -154,8 +149,8 @@ const editEvent= () => {
     $.ajax({
         type: "POST",
         url: "/Home/EditEvent",
-        data: {id: selectedEventId, name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition},
-        success: function(){
+        data: { id: selectedEventId, name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
+        success: function() {
             showDateData();
             editEventForm.style.visibility = "hidden";
         }
@@ -178,8 +173,8 @@ const addEvent = () => {
     $.ajax({
         type: "POST",
         url: "/Home/AddNewEvent",
-        data: {name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition},
-        success: function(){
+        data: { name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
+        success: function() {
             showDateData();
             addEventForm.style.visibility = "hidden";
             addEventForm.style.display = "none";
@@ -191,8 +186,8 @@ const deleteEvent = () => {
     $.ajax({
         type: "POST",
         url: "/Home/DeleteEvent",
-        data: {id: selectedEventId},
-        success: function(){
+        data: { id: selectedEventId },
+        success: function() {
             showDateData();
             editEventForm.style.visibility = "hidden";
             editEventForm.style.display = "none";
