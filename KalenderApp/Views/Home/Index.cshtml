@@ -40,7 +40,7 @@
                 </ul>
             </div>
         </div>
-        <div class="event-data">
+        <div class="event-add">
             <form class="addeventform">
                 <label for="eventname">Event Name:</label><br>
                 <input type="text" id="eventname" name="eventname"><br>
@@ -59,6 +59,25 @@
                     <option value="Annually">Annually</option>
                 </select><br>
                 <input type="submit" value="Add Event">
+            </form>
+            <form class="editeventform">
+                <label for="editeventname">Event Name:</label><br>
+                <input type="text" id="editeventname" name="eventname"><br>
+                <label for="editeventstarttime">Start Time:</label><br>
+                <input type="time" id="editeventstarttime" name="eventstarttime"><br>
+                <label for="editeventendtime">End time:</label><br>
+                <input type="time" id="editeventendtime" name="eventendtime"><br>
+                <label for="editeventlocation">Location:</label><br>
+                <input type="text" id="editeventlocation" name="eventlocation"><br>
+                <label for="editeventrepetition">Repetition:</label><br>
+                <select id="editeventrepetition" name="eventrepetition">
+                    <option value="None">None</option>
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Annually">Annually</option>
+                </select><br>
+                <input type="submit" value="Update Event">
             </form>
         </div>
     </div>

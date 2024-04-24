@@ -11,7 +11,8 @@ let date = new Date(),
     currentMonth = date.getMonth(),
     eventCount = 0,
     loadedEvents = [],
-    dateSelected = date.getDate();
+    dateSelected = date.getDate(),
+    selectedEventId = 0;
 
 const renderCalendar = () => {
     let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(), // get first day of month (mon, tue etc.) | get amount of overflow days
@@ -88,6 +89,8 @@ const showDateData = () => {
                 eventList.innerHTML = eventListHtml;
                 eventCount++;
                 loadedEvents[loadedEvents.length] = data.events[i];
+
+                console.log(data.events[i]);
             }
             eventList.addEventListener("click", () => {
                 if(event.target.tagName === "LI"){
@@ -98,21 +101,60 @@ const showDateData = () => {
     });
 };
 
-const selectEvent = (id) => {
-    let selectedEvent = loadedEvents[id];
-    console.log(selectedEvent);
-};
-
+const editEventForm = document.querySelector(".editeventform");
 const addEventButton = document.getElementById("addEventButton");
 const addEventForm = document.querySelector(".addeventform");
 
+const selectEvent = (id) => {
+    var selectedEvent = loadedEvents[id];
+    selectedEventId = id;
+    
+    document.getElementById("editeventname").value = selectedEvent.name;
+    document.getElementById("editeventstarttime").value = selectedEvent.start_time;
+    document.getElementById("editeventendtime").value = selectedEvent.end_time;
+    document.getElementById("editeventlocation").value = selectedEvent.location;
+    document.getElementById("editeventrepetition").value = selectedEvent.repetition;
+
+    addEventForm.style.visibility = "hidden";
+    addEventForm.style.display = "none";
+    editEventForm.style.visibility = "visible";
+    editEventForm.style.display = "block";
+};
+
 addEventButton.addEventListener("click", () => {
+    editEventForm.style.visibility = "hidden";
+    editEventForm.style.display = "none";
     addEventForm.style.visibility = "visible";
+    addEventForm.style.display = "block";
 });
 addEventForm.addEventListener('submit', () => {
     addEvent();
 });
+editEventForm.addEventListener('submit', () => {
+    editEvent();
+});
+const editEvent= () => {
+    event.preventDefault();
 
+    const eventName = editEventForm.querySelector('#editeventname').value;
+    const eventStartTime = editEventForm.querySelector('#editeventstarttime').value;
+    const eventEndTime = editEventForm.querySelector('#editeventendtime').value;
+    const eventLocation = editEventForm.querySelector('#editeventlocation').value;
+    const eventRepetition = editEventForm.querySelector('#editeventrepetition').value;
+
+    let startDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventStartTime}`;
+    let endDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventEndTime}`;
+
+    $.ajax({
+        type: "POST",
+        url: "/Home/editEvent",
+        data: {id: selectedEventId, name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition},
+        success: function(){
+            showDateData();
+            editEventForm.style.visibility = "hidden";
+        }
+    })
+};
 const addEvent = () => {
     event.preventDefault();
 
@@ -124,12 +166,6 @@ const addEvent = () => {
 
     let startDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventStartTime}`;
     let endDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventEndTime}`;
-
-    console.log('Event Name:', eventName);
-    console.log('Start Time:', startDate);
-    console.log('End Time:', endDate);
-    console.log('Location:', eventLocation);
-    console.log('Repetition:', eventRepetition);
 
     addEventForm.reset();
 

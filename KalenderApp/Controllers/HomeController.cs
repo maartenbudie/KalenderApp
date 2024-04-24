@@ -44,12 +44,12 @@ namespace KalenderApp.Controllers
                     id = eventDTO.id,
                     categoryId = eventDTO.categoryId,
                     name = eventDTO.name,
-                    start_time = Convert.ToString(eventDTO.startTime),
-                    end_time = Convert.ToString(eventDTO.endTime),
+                    start_time = eventDTO.startTime.ToString("HH:mm"),
+                    end_time = eventDTO.endTime.ToString("HH:mm"),
                     location = eventDTO.location,
                     repetition = Convert.ToString(eventDTO.repetition)
                 };
-
+                Console.WriteLine(_event.start_time);
                 events.Add(_event);
             }
             return Json(new{events});
