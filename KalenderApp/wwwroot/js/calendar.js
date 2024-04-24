@@ -100,7 +100,12 @@ const showDateData = () => {
 }
 
 
+const addEventButton = document.getElementById("addEventButton");
 const addEventForm = document.querySelector(".addeventform");
+
+addEventButton.addEventListener("click", () => {
+    addEventForm.style.visibility = "visible";
+});
 addEventForm.addEventListener('submit', () => {
     addEvent();
 });
@@ -128,7 +133,11 @@ const addEvent = () => {
     $.ajax({
         type: "POST",
         url: "/Home/addNewEvent",
-        data: {name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition}
+        data: {name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition},
+        success: function(){
+            showDateData();
+            addEventForm.style.visibility = "hidden";
+        }
     });
 }
 
@@ -141,5 +150,6 @@ prevNextIcon.forEach(icon => {
 days.addEventListener("click", function (event) {
     selectDay(event);
 })
+
 
 renderCalendar();
