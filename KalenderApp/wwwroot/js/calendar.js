@@ -1,26 +1,26 @@
 ﻿const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "spooky", "November", "December"];
 
 const currentDate = document.querySelector(".current-date"),
-    daysTag = document.querySelector(".days"),
-    prevNextIcon = document.querySelectorAll(".icons span"),
-    days = document.querySelector(".calendar .days");
+daysTag = document.querySelector(".days"),
+prevNextIcon = document.querySelectorAll(".icons span"),
+days = document.querySelector(".calendar .days");
 
 let date = new Date(),
-    currentYear = date.getFullYear(),
-    currentMonth = date.getMonth(),
-    eventCount = 0,
-    loadedEvents = [],
-    loadedCategories = [],
-    dateSelected = date.getDate(),
-    selectedEventId = 0;
+currentYear = date.getFullYear(),
+currentMonth = date.getMonth(),
+eventCount = 0,
+loadedEvents = [],
+loadedCategories = [],
+dateSelected = date.getDate(),
+selectedEventId = 0;
 
 const renderCalendar = () => {
     let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(),
-        lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate(),
-        lastDateOfLastMonth = new Date(currentYear, currentMonth, 0).getDate(),
-        lastDayOfMonth = new Date(currentYear, currentMonth, lastDateOfMonth).getDay();
+    lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate(),
+    lastDateOfLastMonth = new Date(currentYear, currentMonth, 0).getDate(),
+    lastDayOfMonth = new Date(currentYear, currentMonth, lastDateOfMonth).getDay();
     let liTag = "";
-
+    
     for (let i = firstDayOfMonth; i > 0; i--) {
         liTag += `<li class="inactive">${lastDateOfLastMonth - i + 1}</li>`;
     }
@@ -31,10 +31,10 @@ const renderCalendar = () => {
     for (let i = lastDayOfMonth; i < 6; i++) {
         liTag += `<li class="inactive">${i - lastDayOfMonth + 1}</li>`;
     }
-
+    
     currentDate.innerText = `${months[currentMonth]} ${currentYear}`;
     daysTag.innerHTML = liTag;
-
+    
     let headerTag = document.querySelector(".event-list h");
     headerTag.innerText = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
@@ -45,7 +45,7 @@ const cycleMonth = (icon) => {
     } else {
         currentMonth += 1;
     }
-
+    
     if (currentMonth < 0 || currentMonth > 11) {
         date = new Date(currentYear, currentMonth);
         currentYear = date.getFullYear();
@@ -58,8 +58,8 @@ const cycleMonth = (icon) => {
 
 const selectDay = (event) => {
     if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
-        getCategory();
-
+        //getCategory();
+        
         dateSelected = event.target.innerText;
         showDateData();
         addEventForm.style.visibility = "hidden";
@@ -88,10 +88,22 @@ const showDateData = () => {
             var eventListHtml = "";
             
             for (let i = 0; i < data.events.length; i++) {
-                eventListHtml += (`
-                <li id="${eventCount}">${data.events[i].name}</li>
-                `);
-                eventList.innerHTML = eventListHtml;
+                var eventElement = document.createElement("li");
+                eventList.appendChild(eventElement);
+                eventElement.id = eventCount;
+                eventElement.innerText = data.events[i].name;
+                eventElement.style.background = `#${getCategoryColour()}`;
+                
+                function getCategoryColour(){
+                    for(var j = 0; j < loadedCategories.length; j++)
+                    {
+                        if(loadedCategories[j].id === data.events[i].categoryId)
+                        {
+                            return loadedCategories[j].colour;
+                        }
+                    }
+                    return "FFFFFF";
+                };
                 eventCount++;
                 loadedEvents[loadedEvents.length] = data.events[i];
             }
@@ -212,9 +224,6 @@ const getAllCategories = () => {
     })
 };
 
-const getCategoryData = () => {
-
-};
 prevNextIcon.forEach(icon => {
     icon.addEventListener("click", () => {
         cycleMonth(icon);
@@ -229,6 +238,9 @@ deleteEventButton.addEventListener("click", () => {
     deleteEvent();
 })
 
+const getCategoryData = () => {
+
+};
 renderCalendar();
-showDateData();
 getAllCategories();
+showDateData();
