@@ -27,7 +27,8 @@ namespace KalenderApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult getAllEvents(int date, int month, int year){
+        public IActionResult getAllEvents(int date, int month, int year)
+        {
             string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
             DateTime dateTime = DateTime.Parse($"{date} {months[month]} {year}");
             Console.WriteLine(dateTime);
@@ -39,8 +40,10 @@ namespace KalenderApp.Controllers
 
             List<object> events = new List<object>();
 
-            foreach(EventDTO eventDTO in eventDTOs){
-                var _event = new {
+            foreach (EventDTO eventDTO in eventDTOs)
+            {
+                var _event = new
+                {
                     id = eventDTO.id,
                     categoryId = eventDTO.categoryId,
                     name = eventDTO.name,
@@ -52,22 +55,41 @@ namespace KalenderApp.Controllers
                 Console.WriteLine(_event.start_time);
                 events.Add(_event);
             }
-            return Json(new{events});
+            return Json(new { events });
         }
         [HttpPost]
         public void addNewEvent(string name, string startTime, string endTime, string location, string repetition)
         {
             try
             {
-            DateTime start = DateTime.Parse(startTime);
-            DateTime end = DateTime.Parse(endTime);
+                DateTime start = DateTime.Parse(startTime);
+                DateTime end = DateTime.Parse(endTime);
 
-            IEventData eventData = new EventData();
-            EventService eventService = new EventService();
+                IEventData eventData = new EventData();
+                EventService eventService = new EventService();
 
-            eventService.addNewEvent(name, start, end, location, repetition, eventData);
+                eventService.addNewEvent(name, start, end, location, repetition, eventData);
             }
             catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public void editEvent(int id, string name, string startTime, string endTime, string location, string repetition)
+        {
+            try
+            {
+                DateTime start = DateTime.Parse(startTime);
+                DateTime end = DateTime.Parse(endTime);
+
+                IEventData eventData = new EventData();
+                EventService eventService = new EventService();
+
+                eventService.editEvent(id, name, start, end, location, repetition, eventData);
+            }
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
