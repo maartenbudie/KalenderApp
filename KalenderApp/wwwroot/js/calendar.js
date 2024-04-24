@@ -131,6 +131,18 @@ const selectEvent = (id) => {
     document.getElementById("editeventendtime").value = selectedEvent.end_time;
     document.getElementById("editeventlocation").value = selectedEvent.location;
     document.getElementById("editeventrepetition").value = selectedEvent.repetition;
+
+    let categories = editEventForm.querySelector("#editeventcategory");
+
+    categories.innerHTML = "";
+
+    for(var i = 0; i < loadedCategories.length; i++)
+    {
+        let option = document.createElement("option");
+        option.value = loadedCategories[i].id;
+        option.innerText = loadedCategories[i].name;
+        categories.appendChild(option);
+    }
     
     addEventForm.style.visibility = "hidden";
     addEventForm.style.display = "none";
@@ -143,8 +155,11 @@ addEventButton.addEventListener("click", () => {
     editEventForm.style.display = "none";
     addEventForm.style.visibility = "visible";
     addEventForm.style.display = "block";
-
+    
     let categories = addEventForm.querySelector("#eventcategory");
+
+    categories.innerHTML = "";
+
     for(var i = 0; i < loadedCategories.length; i++)
     {
         let option = document.createElement("option");
@@ -165,6 +180,7 @@ const editEvent = () => {
     const eventName = editEventForm.querySelector('#editeventname').value;
     const eventStartTime = editEventForm.querySelector('#editeventstarttime').value;
     const eventEndTime = editEventForm.querySelector('#editeventendtime').value;
+    const eventCategory = editEventForm.querySelector('#editeventcategory').value;
     const eventLocation = editEventForm.querySelector('#editeventlocation').value;
     const eventRepetition = editEventForm.querySelector('#editeventrepetition').value;
     
@@ -174,7 +190,7 @@ const editEvent = () => {
     $.ajax({
         type: "POST",
         url: "/Home/EditEvent",
-        data: { id: selectedEventId, name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
+        data: { id: selectedEventId, categoryid: eventCategory, name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
         success: function() {
             showDateData();
             editEventForm.style.visibility = "hidden";

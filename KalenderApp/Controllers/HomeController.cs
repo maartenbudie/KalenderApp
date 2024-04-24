@@ -79,7 +79,7 @@ namespace KalenderApp.Controllers
         }
 
         [HttpPost]
-        public void EditEvent(int id, string name, string startTime, string endTime, string location, string repetition)
+        public void EditEvent(int id, int categoryid, string name, string startTime, string endTime, string location, string repetition)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace KalenderApp.Controllers
                 IEventData eventData = new EventData();
                 EventService eventService = new EventService(eventData);
 
-                eventService.EditEvent(id, name, start, end, location, repetition);
+                eventService.EditEvent(id, categoryid, name, start, end, location, repetition);
             }
             catch (Exception ex)
             {
@@ -139,7 +139,7 @@ namespace KalenderApp.Controllers
             {
                 Console.WriteLine(ex.Message);
             }
-            
+
             return Json(new { categories });
         }
 

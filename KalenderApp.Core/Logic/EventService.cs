@@ -17,9 +17,9 @@ public class EventService
 
         eventData.AddNewEvent(eventDTO);
     }
-    public void EditEvent(int id, string name, DateTime start, DateTime end, string location, string repetition)
+    public void EditEvent(int id, int categoryid, string name, DateTime start, DateTime end, string location, string repetition)
     {
-        EventDTO eventDTO = new EventDTO(id, 1 /*temporary*/, name, start, end, location, repetition);
+        EventDTO eventDTO = new EventDTO(id, categoryid, name, start, end, location, repetition);
 
         eventData.EditEvent(eventDTO);
     }
