@@ -109,6 +109,8 @@ const editEventForm = document.querySelector(".editeventform");
 const addEventButton = document.getElementById("addEventButton");
 const addEventForm = document.querySelector(".addeventform");
 
+const deleteEventButton = document.getElementById("deleteeventbutton");
+
 const selectEvent = (id) => {
     var selectedEvent = loadedEvents[id];
     selectedEventId = selectedEvent.id;
@@ -180,9 +182,23 @@ const addEvent = () => {
         success: function(){
             showDateData();
             addEventForm.style.visibility = "hidden";
+            addEventForm.style.display = "none";
         }
     });
 }
+
+const deleteEvent = () => {
+    $.ajax({
+        type: "POST",
+        url: "/Home/deleteEvent",
+        data: {id: selectedEventId},
+        success: function(){
+            showDateData();
+            editEventForm.style.visibility = "hidden";
+            editEventForm.style.display = "none";
+        }
+    });
+};
 
 prevNextIcon.forEach(icon => {
     icon.addEventListener("click", () => {
@@ -190,10 +206,13 @@ prevNextIcon.forEach(icon => {
     })
 });
 
-days.addEventListener("click", function (event) {
+days.addEventListener("click", (event) => {
     selectDay(event);
 })
 
+deleteEventButton.addEventListener("click", () => {
+    deleteEvent();
+})
 
 renderCalendar();
 showDateData();
