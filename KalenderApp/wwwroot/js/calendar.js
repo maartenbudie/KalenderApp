@@ -62,6 +62,10 @@ const selectDay = (event) => {
     if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
         dateSelected = event.target.innerText;
         showDateData();
+        addEventForm.style.visibility = "hidden";
+        addEventForm.style.display = "none";
+        editEventForm.style.visibility = "hidden";
+        editEventForm.style.display = "none";
     }
 }
 
