@@ -10,6 +10,7 @@ let date = new Date(),
     currentMonth = date.getMonth(),
     eventCount = 0,
     loadedEvents = [],
+    loadedCategories = [],
     dateSelected = date.getDate(),
     selectedEventId = 0;
 
@@ -57,6 +58,8 @@ const cycleMonth = (icon) => {
 
 const selectDay = (event) => {
     if (event.target.tagName === 'LI' && !event.target.classList.contains("inactive")) {
+        getCategory();
+
         dateSelected = event.target.innerText;
         showDateData();
         addEventForm.style.visibility = "hidden";
@@ -66,11 +69,12 @@ const selectDay = (event) => {
     }
 }
 
+
 const showDateData = () => {
     let headerTag = document.querySelector(".event-list h");
-
+    
     headerTag.innerText = `${dateSelected} ${months[currentMonth]} ${currentYear}`;
-
+    
     $.ajax({
         type: "POST",
         url: "/Home/GetAllEventsForDate",
@@ -78,11 +82,11 @@ const showDateData = () => {
         success: function(data) {
             loadedEvents.length = 0;
             eventCount = 0;
-
+            
             var eventList = document.querySelector(".events");
             eventList.innerHTML = "";
             var eventListHtml = "";
-
+            
             for (let i = 0; i < data.events.length; i++) {
                 eventListHtml += (`
                 <li id="${eventCount}">${data.events[i].name}</li>
@@ -109,13 +113,13 @@ const deleteEventButton = document.getElementById("deleteeventbutton");
 const selectEvent = (id) => {
     var selectedEvent = loadedEvents[id];
     selectedEventId = selectedEvent.id;
-
+    
     document.getElementById("editeventname").value = selectedEvent.name;
     document.getElementById("editeventstarttime").value = selectedEvent.start_time;
     document.getElementById("editeventendtime").value = selectedEvent.end_time;
     document.getElementById("editeventlocation").value = selectedEvent.location;
     document.getElementById("editeventrepetition").value = selectedEvent.repetition;
-
+    
     addEventForm.style.visibility = "hidden";
     addEventForm.style.display = "none";
     editEventForm.style.visibility = "visible";
@@ -136,16 +140,16 @@ editEventForm.addEventListener('submit', () => {
 });
 const editEvent = () => {
     event.preventDefault();
-
+    
     const eventName = editEventForm.querySelector('#editeventname').value;
     const eventStartTime = editEventForm.querySelector('#editeventstarttime').value;
     const eventEndTime = editEventForm.querySelector('#editeventendtime').value;
     const eventLocation = editEventForm.querySelector('#editeventlocation').value;
     const eventRepetition = editEventForm.querySelector('#editeventrepetition').value;
-
+    
     let startDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventStartTime}`;
     let endDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventEndTime}`;
-
+    
     $.ajax({
         type: "POST",
         url: "/Home/EditEvent",
@@ -158,18 +162,18 @@ const editEvent = () => {
 };
 const addEvent = () => {
     event.preventDefault();
-
+    
     const eventName = addEventForm.querySelector('#eventname').value;
     const eventStartTime = addEventForm.querySelector('#eventstarttime').value;
     const eventEndTime = addEventForm.querySelector('#eventendtime').value;
     const eventLocation = addEventForm.querySelector('#eventlocation').value;
     const eventRepetition = addEventForm.querySelector('#eventrepetition').value;
-
+    
     let startDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventStartTime}`;
     let endDate = `${dateSelected}-${currentMonth + 1}-${currentYear} ${eventEndTime}`;
-
+    
     addEventForm.reset();
-
+    
     $.ajax({
         type: "POST",
         url: "/Home/AddNewEvent",
@@ -195,6 +199,22 @@ const deleteEvent = () => {
     });
 };
 
+const getAllCategories = () => {
+    $.ajax({
+        type: "POST",
+        url: "/Home/GetAllCategories",
+        success: function(data) {
+            for(var i = 0; i < data.categories.length; i++){
+                loadedCategories[loadedCategories.length] = data.categories[i];
+            }
+            console.table(loadedCategories);
+        }
+    })
+};
+
+const getCategoryData = () => {
+
+};
 prevNextIcon.forEach(icon => {
     icon.addEventListener("click", () => {
         cycleMonth(icon);
@@ -211,3 +231,4 @@ deleteEventButton.addEventListener("click", () => {
 
 renderCalendar();
 showDateData();
+getAllCategories();

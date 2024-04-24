@@ -4,6 +4,8 @@ using System.Diagnostics;
 using KalenderApp.Core;
 using KalenderApp.DAL;
 using System.Text.Json.Nodes;
+using Org.BouncyCastle.Asn1.Iana;
+using KalenderApp.Core.Logic;
 
 namespace KalenderApp.Controllers
 {
@@ -89,7 +91,7 @@ namespace KalenderApp.Controllers
 
                 eventService.EditEvent(id, name, start, end, location, repetition);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -105,11 +107,41 @@ namespace KalenderApp.Controllers
 
                 eventService.DeleteEvent(id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-        }   
+        }
+
+        [HttpPost]
+        public IActionResult GetAllCategories()
+        {
+            ICategoryData categoryData = new CategoryData();
+            CategoryService categoryService = new CategoryService(categoryData);
+            List<CategoryDTO> categoryDTOs = categoryService.GetAllCategories();
+            List<object> categories = new List<object>();
+
+            try
+            {
+
+                foreach (CategoryDTO category in categoryDTOs)
+                {
+                    var _category = new
+                    {
+                        id = category.id,
+                        name = category.name,
+                        colour = category.colour
+                    };
+                    categories.Add(_category);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+            return Json(new { categories });
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
