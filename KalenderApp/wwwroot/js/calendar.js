@@ -143,6 +143,15 @@ addEventButton.addEventListener("click", () => {
     editEventForm.style.display = "none";
     addEventForm.style.visibility = "visible";
     addEventForm.style.display = "block";
+
+    let categories = addEventForm.querySelector("#eventcategory");
+    for(var i = 0; i < loadedCategories.length; i++)
+    {
+        let option = document.createElement("option");
+        option.value = loadedCategories[i].id;
+        option.innerText = loadedCategories[i].name;
+        categories.appendChild(option);
+    }
 });
 addEventForm.addEventListener('submit', () => {
     addEvent();
@@ -178,6 +187,7 @@ const addEvent = () => {
     const eventName = addEventForm.querySelector('#eventname').value;
     const eventStartTime = addEventForm.querySelector('#eventstarttime').value;
     const eventEndTime = addEventForm.querySelector('#eventendtime').value;
+    const eventCategory = addEventForm.querySelector('#eventcategory').value;
     const eventLocation = addEventForm.querySelector('#eventlocation').value;
     const eventRepetition = addEventForm.querySelector('#eventrepetition').value;
     
