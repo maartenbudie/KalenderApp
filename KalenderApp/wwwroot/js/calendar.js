@@ -103,7 +103,12 @@ const selectEvent = (id) => {
     console.log(selectedEvent);
 };
 
+const addEventButton = document.getElementById("addEventButton");
 const addEventForm = document.querySelector(".addeventform");
+
+addEventButton.addEventListener("click", () => {
+    addEventForm.style.visibility = "visible";
+});
 addEventForm.addEventListener('submit', () => {
     addEvent();
 });
@@ -134,6 +139,7 @@ const addEvent = () => {
         data: {name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition},
         success: function(){
             showDateData();
+            addEventForm.style.visibility = "hidden";
         }
     });
 }
@@ -147,6 +153,7 @@ prevNextIcon.forEach(icon => {
 days.addEventListener("click", function (event) {
     selectDay(event);
 })
+
 
 renderCalendar();
 showDateData();
