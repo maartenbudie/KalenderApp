@@ -11,9 +11,9 @@ public class EventService
     {
         return eventData.GetEventsForDay(dateTime);
     }
-    public void AddNewEvent(string name, DateTime start, DateTime end, string location, string repetition)
+    public void AddNewEvent(int categoryid, string name, DateTime start, DateTime end, string location, string repetition)
     {
-        EventDTO eventDTO = new EventDTO(1 /*temporary*/, name, start, end, location, repetition);
+        EventDTO eventDTO = new EventDTO(categoryid, name, start, end, location, repetition);
 
         eventData.AddNewEvent(eventDTO);
     }

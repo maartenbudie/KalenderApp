@@ -215,7 +215,7 @@ const addEvent = () => {
     $.ajax({
         type: "POST",
         url: "/Home/AddNewEvent",
-        data: { name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
+        data: { name: eventName, categoryid: eventCategory, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
         success: function() {
             showDateData();
             addEventForm.style.visibility = "hidden";

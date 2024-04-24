@@ -60,7 +60,7 @@ namespace KalenderApp.Controllers
             return Json(new { events });
         }
         [HttpPost]
-        public void AddNewEvent(string name, string startTime, string endTime, string location, string repetition)
+        public void AddNewEvent(string name, int categoryid, string startTime, string endTime, string location, string repetition)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace KalenderApp.Controllers
                 IEventData eventData = new EventData();
                 EventService eventService = new EventService(eventData);
 
-                eventService.AddNewEvent(name, start, end, location, repetition);
+                eventService.AddNewEvent(categoryid, name, start, end, location, repetition);
             }
             catch (Exception ex)
             {
