@@ -88,17 +88,20 @@ const showDateData = () => {
                 eventList.innerHTML = eventListHtml;
                 eventCount++;
                 loadedEvents[loadedEvents.length] = data.events[i];
-
-                eventList.addEventListener("click", () => {
-                    if(event.target.tagName === "LI"){
-                        console.log("wawawawawawawawawa");
-                    }
-                })
             }
+            eventList.addEventListener("click", () => {
+                if(event.target.tagName === "LI"){
+                    selectEvent(event.target.id);
+                }
+            });
         }
-    })
-}
+    });
+};
 
+const selectEvent = (id) => {
+    let selectedEvent = loadedEvents[id];
+    console.log(selectedEvent);
+};
 
 const addEventForm = document.querySelector(".addeventform");
 addEventForm.addEventListener('submit', () => {
