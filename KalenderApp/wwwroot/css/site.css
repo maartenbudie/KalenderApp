@@ -181,11 +181,11 @@ header .icons span:hover{
   border: solid;
   border-color: black;
   border-width: 1px;
-  transition: 0.5s;
+  transition: 0.1s;
   cursor: pointer;
 }
 .events li:hover{
-  background:rgb(101, 122, 214);
+  border-width: 3px;
 }
 .addeventform, .editeventform, .addcategoryform{
   visibility: hidden;
@@ -203,4 +203,17 @@ header .icons span:hover{
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+button, .submitbutton{
+  background:rgb(131, 151, 241);
+  border-radius: 10px;
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  margin: 2px;
+  transition: 0.5s;
+}
+.submitbutton:hover, button:hover{
+  background: rgb(177, 189, 237);
 }
