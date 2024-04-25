@@ -11,4 +11,8 @@ public class CategoryService
     {
         return categoryData.GetAllCategories();
     }
+    public void AddNewCategory(string name, string colour)
+    {
+        categoryData.AddNewCategory(name, colour);
+    }
 }

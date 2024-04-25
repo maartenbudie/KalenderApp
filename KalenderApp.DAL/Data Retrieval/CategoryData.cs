@@ -37,4 +37,27 @@ public class CategoryData : ICategoryData
         }
         return categories;
     }
+    public void AddNewCategory(string name, string colour)
+    {
+        try
+        {
+            using(MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
+            {
+                string query = "INSERT INTO category (user_id, name, colour) VALUES (@user_id, @name, @colour)";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                
+                command.Parameters.AddWithValue("@user_id", 1);
+                command.Parameters.AddWithValue("@name", name);
+                command.Parameters.AddWithValue("@colour", colour);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
 }

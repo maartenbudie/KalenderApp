@@ -64,6 +64,8 @@ const selectDay = (event) => {
         showDateData();
         addEventForm.style.visibility = "hidden";
         addEventForm.style.display = "none";
+        addCategoryForm.style.visibility = "hidden";
+        addCategoryForm.style.display = "none";
         editEventForm.style.visibility = "hidden";
         editEventForm.style.display = "none";
     }
@@ -92,7 +94,7 @@ const showDateData = () => {
                 eventList.appendChild(eventElement);
                 eventElement.id = eventCount;
                 eventElement.innerText = data.events[i].name;
-                eventElement.style.background = `#${getCategoryColour()}`;
+                eventElement.style.background = `${getCategoryColour()}`;
                 
                 function getCategoryColour(){
                     for(var j = 0; j < loadedCategories.length; j++)
@@ -120,7 +122,56 @@ const editEventForm = document.querySelector(".editeventform");
 const addEventButton = document.getElementById("addEventButton");
 const addEventForm = document.querySelector(".addeventform");
 
+const addCategoryButton = document.getElementById("addCategoryButton");
+const addCategoryForm = document.querySelector(".addcategoryform");
+
 const deleteEventButton = document.getElementById("deleteeventbutton");
+
+days.addEventListener("click", (event) => {
+    selectDay(event);
+});
+
+deleteEventButton.addEventListener("click", () => {
+    deleteEvent();
+});
+addEventForm.addEventListener('submit', () => {
+    addEvent();
+});
+editEventForm.addEventListener('submit', () => {
+    editEvent();
+});
+addCategoryForm.addEventListener('submit', () => {
+    addCategory();
+});
+addEventButton.addEventListener("click", () => {
+    editEventForm.style.visibility = "hidden";
+    editEventForm.style.display = "none";
+    addCategoryForm.style.visibility = "hidden";
+    addCategoryForm.style.display = "none";
+    addEventForm.style.visibility = "visible";
+    addEventForm.style.display = "block";
+    
+    let categories = addEventForm.querySelector("#eventcategory");
+    
+    categories.innerHTML = "";
+
+    for(var i = 0; i < loadedCategories.length; i++)
+    {
+        let option = document.createElement("option");
+        option.value = loadedCategories[i].id;
+        option.innerText = loadedCategories[i].name;
+        categories.appendChild(option);
+    }
+});
+
+addCategoryButton.addEventListener('click', () => {
+    editEventForm.style.visibility = "hidden";
+    editEventForm.style.display = "none";
+    addEventForm.style.visibility = "hidden";
+    addEventForm.style.display = "none";
+    addCategoryForm.style.visibility = "visible";
+    addCategoryForm.style.display = "block";
+});
 
 const selectEvent = (id) => {
     var selectedEvent = loadedEvents[id];
@@ -150,30 +201,6 @@ const selectEvent = (id) => {
     editEventForm.style.display = "block";
 };
 
-addEventButton.addEventListener("click", () => {
-    editEventForm.style.visibility = "hidden";
-    editEventForm.style.display = "none";
-    addEventForm.style.visibility = "visible";
-    addEventForm.style.display = "block";
-    
-    let categories = addEventForm.querySelector("#eventcategory");
-
-    categories.innerHTML = "";
-
-    for(var i = 0; i < loadedCategories.length; i++)
-    {
-        let option = document.createElement("option");
-        option.value = loadedCategories[i].id;
-        option.innerText = loadedCategories[i].name;
-        categories.appendChild(option);
-    }
-});
-addEventForm.addEventListener('submit', () => {
-    addEvent();
-});
-editEventForm.addEventListener('submit', () => {
-    editEvent();
-});
 const editEvent = () => {
     event.preventDefault();
     
@@ -223,6 +250,25 @@ const addEvent = () => {
         }
     });
 }
+const addCategory = () => {
+    event.preventDefault();
+
+    const categoryName = addCategoryForm.querySelector('#categoryname').value;
+    const categoryColour = addCategoryForm.querySelector('#categorycolour').value;
+
+    addCategoryForm.reset();
+
+    $.ajax({
+        type: "POST",
+        url: "/Home/AddNewCategory",
+        data: {name: categoryName, colour: categoryColour},
+        success: function() {
+            getAllCategories();
+            addCategoryForm.style.visibility = "hidden";
+            addCategoryForm.style.display = "none";
+        }
+    });
+};
 
 const deleteEvent = () => {
     $.ajax({
@@ -238,6 +284,7 @@ const deleteEvent = () => {
 };
 
 const getAllCategories = () => {
+    loadedCategories.length = 0;
     $.ajax({
         type: "POST",
         url: "/Home/GetAllCategories",
@@ -256,13 +303,6 @@ prevNextIcon.forEach(icon => {
     })
 });
 
-days.addEventListener("click", (event) => {
-    selectDay(event);
-})
-
-deleteEventButton.addEventListener("click", () => {
-    deleteEvent();
-})
 
 const getCategoryData = () => {
 

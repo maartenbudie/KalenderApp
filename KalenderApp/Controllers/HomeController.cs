@@ -143,6 +143,15 @@ namespace KalenderApp.Controllers
             return Json(new { categories });
         }
 
+        [HttpPost]
+        public void AddNewCategory(string name, string colour)
+        {
+            ICategoryData categoryData = new CategoryData();
+            CategoryService categoryService = new CategoryService(categoryData);
+
+            categoryService.AddNewCategory(name, colour);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

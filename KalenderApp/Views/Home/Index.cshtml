@@ -9,7 +9,10 @@
 
     </div>
     <div class="calendar-container">
-        <button id="addEventButton">Add New Event</button>
+        <div class="button-container">
+            <button id="addEventButton">Add New Event</button>
+            <button id="addCategoryButton">Add New Category</button>
+        </div>
         <div class="wrapper">
             <header>
                 <p class="current-date"></p>
@@ -83,6 +86,13 @@
                 </select><br>
                 <input type="submit" value="Update Event">
                 <button id="deleteeventbutton">Delete Event</button>
+            </form>
+            <form class="addcategoryform">
+                <label for="categoryname">Category Name:</label><br>
+                <input type="text" id="categoryname" name="categoryname"><br>
+                <label for="categorycolour">Category Colour:</label><br>
+                <input type="color" id="categorycolour" name="categorycolour"><br>
+                <input type="submit" value="Add Category">
             </form>
         </div>
     </div>
