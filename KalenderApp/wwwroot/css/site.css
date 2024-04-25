@@ -206,7 +206,7 @@ header .icons span:hover{
 }
 
 button, .submitbutton{
-  background:rgb(131, 151, 241);
+  background:rgb(177, 189, 237);
   border-radius: 10px;
   border: solid;
   border-color: black;
@@ -215,5 +215,5 @@ button, .submitbutton{
   transition: 0.5s;
 }
 .submitbutton:hover, button:hover{
-  background: rgb(177, 189, 237);
+  background: rgb(131, 151, 241);;
 }
