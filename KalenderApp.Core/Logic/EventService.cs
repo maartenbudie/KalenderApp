@@ -7,9 +7,17 @@ public class EventService
         this.eventData = eventData;
     }
 
-    public List<EventDTO> GetEventsForDay(DateTime dateTime)
+    public List<EventEntity> GetEventsForDay(DateTime dateTime)
     {
-        return eventData.GetEventsForDay(dateTime);
+        List<EventDTO> events = eventData.GetEventsForDay(dateTime);
+        List<EventEntity> eventEntities = new List<EventEntity>();
+
+        foreach(EventDTO eventDTO in events)
+        {
+            EventEntity entity = new EventEntity(eventDTO);    
+            eventEntities.Add(entity);
+        }
+        return eventEntities;
     }
     public void AddNewEvent(int categoryid, string name, DateTime start, DateTime end, string location, string repetition)
     {
