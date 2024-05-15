@@ -36,23 +36,22 @@ namespace KalenderApp.Controllers
             IEventData eventData = new EventData();
             EventService eventService = new EventService(eventData);
 
-            List<EventDTO> eventDTOs = eventService.GetEventsForDay(dateTime);
+            List<EventEntity> eventEntities = eventService.GetEventsForDay(dateTime);
 
             List<object> events = new List<object>();
 
-            foreach (EventDTO eventDTO in eventDTOs)
+            foreach (EventEntity eventEntity in eventEntities)
             {
                 var _event = new
                 {
-                    id = eventDTO.id,
-                    categoryId = eventDTO.categoryId,
-                    name = eventDTO.name,
-                    start_time = eventDTO.startTime.ToString("HH:mm"),
-                    end_time = eventDTO.endTime.ToString("HH:mm"),
-                    location = eventDTO.location,
-                    repetition = Convert.ToString(eventDTO.repetition)
+                    id = eventEntity.id,
+                    categoryId = eventEntity.categoryId,
+                    name = eventEntity.name,
+                    start_time = eventEntity.startTime.ToString("HH:mm"),
+                    end_time = eventEntity.endTime.ToString("HH:mm"),
+                    location = eventEntity.location,
+                    repetition = Convert.ToString(eventEntity.repetition)
                 };
-                Console.WriteLine(_event.start_time);
                 events.Add(_event);
             }
             return Json(new { events });
@@ -109,7 +108,46 @@ namespace KalenderApp.Controllers
             {
                 Console.WriteLine(ex.Message);
             }
-        }   
+        }
+
+        [HttpPost]
+        public IActionResult GetAllCategories()
+        {
+            ICategoryData categoryData = new CategoryData();
+            CategoryService categoryService = new CategoryService(categoryData);
+            List<CategoryDTO> categoryDTOs = categoryService.GetAllCategories();
+            List<object> categories = new List<object>();
+
+            try
+            {
+
+                foreach (CategoryDTO category in categoryDTOs)
+                {
+                    var _category = new
+                    {
+                        id = category.id,
+                        name = category.name,
+                        colour = category.colour
+                    };
+                    categories.Add(_category);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return Json(new { categories });
+        }
+
+        [HttpPost]
+        public void AddNewCategory(string name, string colour)
+        {
+            ICategoryData categoryData = new CategoryData();
+            CategoryService categoryService = new CategoryService(categoryData);
+
+            categoryService.AddNewCategory(name, colour);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
