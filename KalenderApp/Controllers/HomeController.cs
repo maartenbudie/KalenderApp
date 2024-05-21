@@ -14,9 +14,10 @@ namespace KalenderApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IEventData eventData;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IEventData eventData)
         {
             _logger = logger;
+            this.eventData = eventData;
         }
 
         public IActionResult Index()
