@@ -8,8 +8,6 @@ namespace KalenderApp.DAL
         public List<EventDTO> GetEventsForDay(DateTime dateTime)
         {
             List<EventDTO> events = new List<EventDTO>();
-            Console.WriteLine(dateTime.Date);
-
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
@@ -35,9 +33,9 @@ namespace KalenderApp.DAL
                     reader.Close();
                 }
             }
-            catch(Exception ex)
+            catch(MySqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new Exception($"An error occurred. Please try again later. Error Code: {ex.Number}");
             }
             return events;
         }
@@ -57,19 +55,15 @@ namespace KalenderApp.DAL
                     command.Parameters.AddWithValue("@location", dto.location);
                     command.Parameters.AddWithValue("@repetition", dto.repetition);
 
-                    Console.WriteLine(dto.categoryId.ToString(), dto.name, dto.startTime, dto.endTime, dto.location, dto.repetition);
-
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred. Please try again later." + ex.Number);
             }
         }
-
-        //Todo: PascalCase
         public void EditEvent(EventDTO dto){
             try
             {
@@ -90,9 +84,9 @@ namespace KalenderApp.DAL
                     command.ExecuteNonQuery();
                 }
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred. Please try again later." + ex.Number);
             }
         }
         public void DeleteEvent(int id)
@@ -110,9 +104,9 @@ namespace KalenderApp.DAL
                     command.ExecuteNonQuery();
                 }
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred. Please try again later." + ex.Number);
             }
         }
     }
