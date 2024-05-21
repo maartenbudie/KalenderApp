@@ -82,38 +82,46 @@ const showDateData = () => {
         url: "/Home/GetAllEventsForDate",
         data: { date: dateSelected, month: currentMonth, year: currentYear },
         success: function(data) {
-            loadedEvents.length = 0;
-            eventCount = 0;
-            
-            var eventList = document.querySelector(".events");
-            eventList.innerHTML = "";
-            var eventListHtml = "";
-            
-            for (let i = 0; i < data.events.length; i++) {
-                var eventElement = document.createElement("li");
-                eventList.appendChild(eventElement);
-                eventElement.id = eventCount;
-                eventElement.innerText = data.events[i].name;
-                eventElement.style.background = `${getCategoryColour()}`;
+            if(data.success){
+                loadedEvents.length = 0;
+                eventCount = 0;
                 
-                function getCategoryColour(){
-                    for(var j = 0; j < loadedCategories.length; j++)
-                    {
-                        if(loadedCategories[j].id === data.events[i].categoryId)
+                var eventList = document.querySelector(".events");
+                eventList.innerHTML = "";
+                var eventListHtml = "";
+                
+                for (let i = 0; i < data.events.length; i++) {
+                    var eventElement = document.createElement("li");
+                    eventList.appendChild(eventElement);
+                    eventElement.id = eventCount;
+                    eventElement.innerText = data.events[i].name;
+                    eventElement.style.background = `${getCategoryColour()}`;
+                    
+                    function getCategoryColour(){
+                        for(var j = 0; j < loadedCategories.length; j++)
                         {
-                            return loadedCategories[j].colour;
+                            if(loadedCategories[j].id === data.events[i].categoryId)
+                            {
+                                return loadedCategories[j].colour;
+                            }
                         }
-                    }
-                    return "FFFFFF";
-                };
-                eventCount++;
-                loadedEvents[loadedEvents.length] = data.events[i];
-            }
-            eventList.addEventListener("click", () => {
-                if (event.target.tagName === "LI") {
-                    selectEvent(event.target.id);
+                        return "FFFFFF";
+                    };
+                    eventCount++;
+                    loadedEvents[loadedEvents.length] = data.events[i];
                 }
-            });
+                eventList.addEventListener("click", () => {
+                    if (event.target.tagName === "LI") {
+                        selectEvent(event.target.id);
+                    }
+                });
+            }
+            else{
+                alert(data.errorMessage);
+            }
+        },
+        error: function(xhr){
+            alert(xhr.responseText);
         }
     });
 };

@@ -31,32 +31,40 @@ namespace KalenderApp.Controllers
         [HttpPost]
         public IActionResult GetAllEventsForDate(int date, int month, int year)
         {
-            string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-            DateTime dateTime = DateTime.Parse($"{date} {months[month]} {year}");
-            Console.WriteLine(dateTime);
-
-            IEventData eventData = new EventData();
-            EventService eventService = new EventService(eventData);
-
-            List<EventEntity> eventEntities = eventService.GetEventsForDay(dateTime);
-
-            List<object> events = new List<object>();
-
-            foreach (EventEntity eventEntity in eventEntities)
+            try
             {
-                var _event = new
+                string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+                DateTime dateTime = DateTime.Parse($"{date} {months[month]} {year}");
+                Console.WriteLine(dateTime);
+
+                IEventData eventData = new EventData();
+                EventService eventService = new EventService(eventData);
+
+                List<EventEntity> eventEntities = eventService.GetEventsForDay(dateTime);
+
+                List<object> events = new List<object>();
+
+                foreach (EventEntity eventEntity in eventEntities)
                 {
-                    id = eventEntity.id,
-                    categoryId = eventEntity.categoryId,
-                    name = eventEntity.name,
-                    start_time = eventEntity.startTime.ToString("HH:mm"),
-                    end_time = eventEntity.endTime.ToString("HH:mm"),
-                    location = eventEntity.location,
-                    repetition = Convert.ToString(eventEntity.repetition)
-                };
-                events.Add(_event);
+                    var _event = new
+                    {
+                        id = eventEntity.id,
+                        categoryId = eventEntity.categoryId,
+                        name = eventEntity.name,
+                        start_time = eventEntity.startTime.ToString("HH:mm"),
+                        end_time = eventEntity.endTime.ToString("HH:mm"),
+                        location = eventEntity.location,
+                        repetition = Convert.ToString(eventEntity.repetition)
+                    };
+                    events.Add(_event);
+                }
+                return Json(new {success = true, events });
             }
-            return Json(new { events });
+            catch (Exception ex)
+            {
+                return Json(new{success = false, errorMessage = ex.Message});
+            }
+
         }
         [HttpPost]
         public void AddNewEvent(string name, int categoryid, string startTime, string endTime, string location, string repetition)

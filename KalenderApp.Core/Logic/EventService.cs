@@ -9,15 +9,22 @@ public class EventService
 
     public List<EventEntity> GetEventsForDay(DateTime dateTime)
     {
-        List<EventDTO> events = eventData.GetEventsForDay(dateTime);
-        List<EventEntity> eventEntities = new List<EventEntity>();
-
-        foreach(EventDTO eventDTO in events)
+        try
         {
-            EventEntity entity = new EventEntity(eventDTO);    
-            eventEntities.Add(entity);
+            List<EventDTO> events = eventData.GetEventsForDay(dateTime);
+            List<EventEntity> eventEntities = new List<EventEntity>();
+
+            foreach(EventDTO eventDTO in events)
+            {
+                EventEntity entity = new EventEntity(eventDTO);    
+                eventEntities.Add(entity);
+            }
+            return eventEntities;
         }
-        return eventEntities;
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
     public void AddNewEvent(int categoryid, string name, DateTime start, DateTime end, string location, string repetition)
     {
