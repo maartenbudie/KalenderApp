@@ -12,6 +12,7 @@ namespace KalenderApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IEventData eventData;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -37,7 +38,6 @@ namespace KalenderApp.Controllers
                 DateTime dateTime = DateTime.Parse($"{date} {months[month]} {year}");
                 Console.WriteLine(dateTime);
 
-                IEventData eventData = new EventData();
                 EventService eventService = new EventService(eventData);
 
                 List<EventEntity> eventEntities = eventService.GetEventsForDay(dateTime);
