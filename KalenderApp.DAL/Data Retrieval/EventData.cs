@@ -32,12 +32,12 @@ namespace KalenderApp.DAL
                     }
                     reader.Close();
                 }
+                return events;  
             }
             catch(MySqlException ex)
             {
-                throw new Exception($"An error occurred. Please try again later. Error Code: {ex.Number}");
+                throw new Exception($"An error occurred. Please try again later.\n\nError {ex.Number}: {ex.Message}");
             }
-            return events;
         }
 
         public void AddNewEvent(EventDTO dto){
