@@ -14,7 +14,7 @@ namespace KalenderApp.DAL
             {
                 using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
                 {
-                    string query = "SELECT * FROM event WHERE DATE(start_time) = DATE(@dateTime)";
+                    string query = "SELECT id, category_id, name, start_time, end_time, location, repetition FROM event WHERE DATE(start_time) = DATE(@dateTime)";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@dateTime", dateTime);
                     connection.Open();
