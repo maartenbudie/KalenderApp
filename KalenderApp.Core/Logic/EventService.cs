@@ -21,25 +21,44 @@ public class EventService
             }
             return eventEntities;
         }
-        catch(Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        catch(DataException ex){throw ex;}
     }
     public void AddNewEvent(int categoryid, string name, DateTime start, DateTime end, string location, string repetition)
     {
-        EventDTO eventDTO = new EventDTO(categoryid, name, start, end, location, repetition);
-
-        eventData.AddNewEvent(eventDTO);
+        try
+        {
+            Console.WriteLine(repetition);
+            if(name == String.Empty) throw new InvalidValueException("Invalid Name: Name can't be empty.");
+            if(start < DateTime.Now) throw new InvalidValueException("Invalid Date: Cannot add Event on passed date");
+            if(repetition != "None" && repetition != "Daily" && repetition != "Weekly" && repetition != "Monthly" && repetition != "Quarterly" && repetition != "Annually") throw new InvalidValueException("Invalid Repetition.");
+            EventDTO eventDTO = new EventDTO(categoryid, name, start, end, location, repetition);
+            eventData.AddNewEvent(eventDTO);
+        }
+        catch(InvalidValueException ex){throw ex;}
+        catch(DataException ex){throw ex;}
     }
     public void EditEvent(int id, int categoryid, string name, DateTime start, DateTime end, string location, string repetition)
     {
-        EventDTO eventDTO = new EventDTO(id, categoryid, name, start, end, location, repetition);
-
-        eventData.EditEvent(eventDTO);
+        try
+        {
+            if(id < 1) throw new InvalidValueException("Invalid Event");
+            if(name == String.Empty) throw new InvalidValueException("Invalid Name: Name can't be empty.");
+            if(start < DateTime.Now) throw new InvalidValueException("Invalid Date: Cannot add Event on passed date");
+            if(repetition != "Daily" && repetition != "Weekly" && repetition != "Monthly" && repetition != "Quarterly" && repetition != "Yearly") throw new InvalidValueException("Invalid Repetition.");
+            EventDTO eventDTO = new EventDTO(categoryid, name, start, end, location, repetition);
+            eventData.EditEvent(eventDTO);
+        }
+        catch(InvalidValueException ex){throw ex;}
+        catch(DataException ex){throw ex;}
     }
     public void DeleteEvent(int id)
     {
-        eventData.DeleteEvent(id);
+        try
+        {
+            if(id < 1) throw new InvalidValueException("Invalid Event");
+            eventData.DeleteEvent(id);
+        }
+        catch(InvalidValueException ex){throw ex;}
+        catch(DataException ex){throw ex;}
     }
 }

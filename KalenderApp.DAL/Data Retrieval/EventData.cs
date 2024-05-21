@@ -38,7 +38,7 @@ namespace KalenderApp.DAL
             }
             catch (MySqlException ex)
             {
-                throw new Exception($"An error occurred. Please try again later or contact an administrator.\n\nError Code: {ex.Number}");
+                throw new DataException($"An error occurred. Please try again later or contact an administrator.\n\nError Code: {ex.Number}");
             }
         }
 
@@ -64,7 +64,7 @@ namespace KalenderApp.DAL
             }
             catch (MySqlException ex)
             {
-                throw new Exception("An error occurred. Please try again later." + ex.Number);
+                throw new DataException($"An error occurred. Please try again later or contact an administrator.\n\nError Code: {ex.Number}");
             }
         }
         public void EditEvent(EventDTO dto)
@@ -90,7 +90,7 @@ namespace KalenderApp.DAL
             }
             catch (MySqlException ex)
             {
-                throw new Exception("An error occurred. Please try again later." + ex.Number);
+                throw new DataException($"An error occurred. Please try again later or contact an administrator.\n\nError Code: {ex.Number}");
             }
         }
         public void DeleteEvent(int id)
@@ -110,7 +110,7 @@ namespace KalenderApp.DAL
             }
             catch (MySqlException ex)
             {
-                throw new Exception("An error occurred. Please try again later." + ex.Number);
+                throw new DataException($"An error occurred. Please try again later or contact an administrator.\n\nError Code: {ex.Number}");
             }
         }
     }

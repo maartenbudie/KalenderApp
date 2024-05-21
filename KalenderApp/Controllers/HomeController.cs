@@ -61,14 +61,14 @@ namespace KalenderApp.Controllers
                 }
                 return Json(new {success = true, events });
             }
-            catch (Exception ex)
+            catch (DataException ex)
             {
                 return Json(new{success = false, errorMessage = ex.Message});
             }
 
         }
         [HttpPost]
-        public void AddNewEvent(string name, int categoryid, string startTime, string endTime, string location, string repetition)
+        public IActionResult AddNewEvent(string name, int categoryid, string startTime, string endTime, string location, string repetition)
         {
             try
             {
@@ -80,10 +80,15 @@ namespace KalenderApp.Controllers
 
                 eventService.AddNewEvent(categoryid, name, start, end, location, repetition);
             }
-            catch (Exception ex)
+            catch (DataException ex)
             {
-                Console.WriteLine(ex.Message);
+                return Json(new{success = false, errorMessage = ex.Message});
             }
+            catch (InvalidValueException ex)
+            {
+                return Json(new{success = false, errorMessage = ex.Message});
+            }
+            return Json(new{success = true});
         }
 
         [HttpPost]
