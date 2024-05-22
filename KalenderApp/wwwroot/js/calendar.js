@@ -83,6 +83,7 @@ const showDateData = () => {
         data: { date: dateSelected, month: currentMonth, year: currentYear },
         success: function (data) {
             if (data.success) {
+                console.log(data);
                 loadedEvents.length = 0;
                 eventCount = 0;
 

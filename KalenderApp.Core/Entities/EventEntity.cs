@@ -3,7 +3,7 @@ namespace KalenderApp.Core;
 public class EventEntity
 {
     public int? id { get; private set; }
-    public int[]? categoryId { get; private set; }
+    public List<int> categoryId { get; private set; }
     public string name { get; private set; }
     public DateTime startTime { get; private set; }
     public DateTime endTime { get; private set; }

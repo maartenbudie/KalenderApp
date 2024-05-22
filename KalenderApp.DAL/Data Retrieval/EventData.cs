@@ -28,8 +28,31 @@ namespace KalenderApp.DAL
                             string location = Convert.ToString(reader["location"]);
                             string repetition = Convert.ToString(reader["repetition"]);
 
-                            EventDTO eventDTO = new EventDTO(id, null /*temp*/, name, start_time, end_time, location, repetition);
+                            EventDTO eventDTO = new EventDTO(id, new List<int>(), name, start_time, end_time, location, repetition); // Initialize categoryId as an empty list
                             events.Add(eventDTO);
+                        }
+                    }
+                }
+                for (int i = 0; i < events.Count; i++)
+                {
+                    using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString)) // Use the existing connection string
+                    {
+                        string query = "SELECT category_id FROM event_category WHERE event_id = @event_id;";
+                        MySqlCommand command = new MySqlCommand(query, connection);
+                        if (command.Parameters.Contains("@event_id"))
+                            command.Parameters["@event_id"].Value = events[i].id;
+                        else
+                            command.Parameters.AddWithValue("@event_id", events[i].id);
+
+                        connection.Open();
+                        MySqlDataReader reader = command.ExecuteReader();
+                        using (reader)
+                        {
+                            while (reader.Read())
+                            {
+                                int categoryId = Convert.ToInt32(reader["category_id"]);
+                                events[i].categoryId.Add(categoryId); // Add categoryId to the list
+                            }
                         }
                     }
                 }
@@ -40,6 +63,7 @@ namespace KalenderApp.DAL
                 throw new DataException($"An error occurred. Please try again later or contact an administrator.\n\nError Code: {ex.Number} {ex.Message}");
             }
         }
+
 
         public void AddNewEvent(EventDTO dto)
         {
@@ -63,12 +87,10 @@ namespace KalenderApp.DAL
                 {
                     string query = "INSERT INTO event_category (event_id, category_id) VALUES (LAST_INSERT_ID(), @category_id);";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    for (int i = 0; i < dto.categoryId.Length; i++)
+                    for (int i = 0; i < dto.categoryId.Count; i++)
                     {
-                        if(command.Parameters.Contains("@category_id"))
-                        {
+                        if (command.Parameters.Contains("@category_id"))
                             command.Parameters["@category_id"].Value = dto.categoryId[i];
-                        }
                         else
                             command.Parameters.AddWithValue("@category_id", dto.categoryId[i]);
 
