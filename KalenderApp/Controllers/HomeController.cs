@@ -59,11 +59,11 @@ namespace KalenderApp.Controllers
                     };
                     events.Add(_event);
                 }
-                return Json(new {success = true, events });
+                return Json(new { success = true, events });
             }
             catch (DataException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
 
         }
@@ -82,13 +82,13 @@ namespace KalenderApp.Controllers
             }
             catch (DataException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
             catch (InvalidValueException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
-            return Json(new{success = true});
+            return Json(new { success = true });
         }
 
         [HttpPost]
@@ -106,13 +106,13 @@ namespace KalenderApp.Controllers
             }
             catch (DataException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
             catch (InvalidValueException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
-            return Json(new{success = true});
+            return Json(new { success = true });
         }
 
         [HttpPost]
@@ -127,13 +127,13 @@ namespace KalenderApp.Controllers
             }
             catch (DataException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
             catch (InvalidValueException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
-            return Json(new{success = true});
+            return Json(new { success = true });
         }
 
         [HttpPost]
@@ -141,13 +141,13 @@ namespace KalenderApp.Controllers
         {
             ICategoryData categoryData = new CategoryData();
             CategoryService categoryService = new CategoryService(categoryData);
-            List<CategoryDTO> categoryDTOs = categoryService.GetAllCategories();
+            List<CategoryEntity> categoryEntities = categoryService.GetAllCategories();
             List<object> categories = new List<object>();
 
             try
             {
 
-                foreach (CategoryDTO category in categoryDTOs)
+                foreach (CategoryEntity category in categoryEntities)
                 {
                     var _category = new
                     {
@@ -157,12 +157,12 @@ namespace KalenderApp.Controllers
                     };
                     categories.Add(_category);
                 }
+                return Json(new { success = true, categories });
             }
             catch (DataException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
-            return Json(new{success = true});
         }
 
         [HttpPost]
@@ -177,13 +177,44 @@ namespace KalenderApp.Controllers
             }
             catch (DataException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
             catch (InvalidValueException ex)
             {
-                return Json(new{success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
-            return Json(new{success = true});
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public IActionResult GetCategoriesForEvent(int id)
+        {
+            List<object> categories = new List<object>();
+            try
+            {
+                ICategoryData categoryData = new CategoryData();
+                CategoryService categoryService = new CategoryService(categoryData);
+                List<CategoryEntity> categoryEntities = categoryService.GetCategoriesForEvent(id);
+
+                foreach (CategoryEntity category in categoryEntities)
+                {
+                    var _category = new
+                    {
+                        id = category.id,
+                        name = category.name,
+                        colour = category.colour
+                    };
+                    categories.Add(_category);
+                }
+                return Json(new { success = true, categories });
+            }
+            catch (DataException ex)
+            {
+                return Json(new { success = false, errorMessage = ex.Message });
+            }
+            catch (InvalidValueException ex)
+            {
+                return Json(new { success = false, errorMessage = ex.Message });
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
