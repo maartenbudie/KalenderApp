@@ -34,7 +34,6 @@ public class EventService
             EventDTO eventDTO = new EventDTO(categoryid, name, start, end, location, repetition);
             eventData.AddNewEvent(eventDTO);
         }
-        catch(InvalidValueException ex){throw ex;}
         catch(DataException ex){throw ex;}
     }
     public void EditEvent(int id, int categoryid, string name, DateTime start, DateTime end, string location, string repetition)
@@ -48,7 +47,6 @@ public class EventService
             EventDTO eventDTO = new EventDTO(categoryid, name, start, end, location, repetition);
             eventData.EditEvent(eventDTO);
         }
-        catch(InvalidValueException ex){throw ex;}
         catch(DataException ex){throw ex;}
     }
     public void DeleteEvent(int id)
@@ -58,7 +56,6 @@ public class EventService
             if(id < 1) throw new InvalidValueException("Invalid Event");
             eventData.DeleteEvent(id);
         }
-        catch(InvalidValueException ex){throw ex;}
         catch(DataException ex){throw ex;}
     }
 }
