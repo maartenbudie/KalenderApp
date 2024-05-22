@@ -92,7 +92,7 @@ namespace KalenderApp.Controllers
         }
 
         [HttpPost]
-        public void EditEvent(int id, int categoryid, string name, string startTime, string endTime, string location, string repetition)
+        public IActionResult EditEvent(int id, int categoryid, string name, string startTime, string endTime, string location, string repetition)
         {
             try
             {
@@ -104,14 +104,19 @@ namespace KalenderApp.Controllers
 
                 eventService.EditEvent(id, categoryid, name, start, end, location, repetition);
             }
-            catch (Exception ex)
+            catch (DataException ex)
             {
-                Console.WriteLine(ex.Message);
+                return Json(new{success = false, errorMessage = ex.Message});
             }
+            catch (InvalidValueException ex)
+            {
+                return Json(new{success = false, errorMessage = ex.Message});
+            }
+            return Json(new{success = true});
         }
 
         [HttpPost]
-        public void DeleteEvent(int id)
+        public IActionResult DeleteEvent(int id)
         {
             try
             {
@@ -120,10 +125,15 @@ namespace KalenderApp.Controllers
 
                 eventService.DeleteEvent(id);
             }
-            catch (Exception ex)
+            catch (DataException ex)
             {
-                Console.WriteLine(ex.Message);
+                return Json(new{success = false, errorMessage = ex.Message});
             }
+            catch (InvalidValueException ex)
+            {
+                return Json(new{success = false, errorMessage = ex.Message});
+            }
+            return Json(new{success = true});
         }
 
         [HttpPost]
@@ -148,21 +158,32 @@ namespace KalenderApp.Controllers
                     categories.Add(_category);
                 }
             }
-            catch (Exception ex)
+            catch (DataException ex)
             {
-                Console.WriteLine(ex.Message);
+                return Json(new{success = false, errorMessage = ex.Message});
             }
-
-            return Json(new { categories });
+            return Json(new{success = true});
         }
 
         [HttpPost]
-        public void AddNewCategory(string name, string colour)
+        public IActionResult AddNewCategory(string name, string colour)
         {
-            ICategoryData categoryData = new CategoryData();
-            CategoryService categoryService = new CategoryService(categoryData);
+            try
+            {
+                ICategoryData categoryData = new CategoryData();
+                CategoryService categoryService = new CategoryService(categoryData);
 
-            categoryService.AddNewCategory(name, colour);
+                categoryService.AddNewCategory(name, colour);
+            }
+            catch (DataException ex)
+            {
+                return Json(new{success = false, errorMessage = ex.Message});
+            }
+            catch (InvalidValueException ex)
+            {
+                return Json(new{success = false, errorMessage = ex.Message});
+            }
+            return Json(new{success = true});
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
