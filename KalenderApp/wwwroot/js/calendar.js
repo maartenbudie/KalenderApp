@@ -234,7 +234,7 @@ const addEvent = () => {
     const eventName = addEventForm.querySelector('#eventname').value;
     const eventStartTime = addEventForm.querySelector('#eventstarttime').value;
     const eventEndTime = addEventForm.querySelector('#eventendtime').value;
-    const eventCategory = addEventForm.querySelector('#eventcategory').value;
+    const eventCategories = $('#eventcategory').val();
     const eventLocation = addEventForm.querySelector('#eventlocation').value;
     const eventRepetition = addEventForm.querySelector('#eventrepetition').value;
 
@@ -246,7 +246,7 @@ const addEvent = () => {
     $.ajax({
         type: "POST",
         url: "/Home/AddNewEvent",
-        data: { name: eventName, categoryid: eventCategory, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
+        data: { name: eventName, categoryid: eventCategories, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
         success: function (data) {
             if (data.success) {
                 showDateData();

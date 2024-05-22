@@ -23,7 +23,7 @@ public class EventService
         }
         catch(DataException ex){throw ex;}
     }
-    public void AddNewEvent(int categoryid, string name, DateTime start, DateTime end, string location, string repetition)
+    public void AddNewEvent(int[] categoryid, string name, DateTime start, DateTime end, string location, string repetition)
     {
         try
         {
@@ -35,7 +35,7 @@ public class EventService
         }
         catch(DataException ex){throw ex;}
     }
-    public void EditEvent(int id, int categoryid, string name, DateTime start, DateTime end, string location, string repetition)
+    public void EditEvent(int id, int[] categoryid, string name, DateTime start, DateTime end, string location, string repetition)
     {
         try
         {

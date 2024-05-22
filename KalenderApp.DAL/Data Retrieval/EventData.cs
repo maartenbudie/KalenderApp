@@ -28,7 +28,7 @@ namespace KalenderApp.DAL
                             string location = Convert.ToString(reader["location"]);
                             string repetition = Convert.ToString(reader["repetition"]);
 
-                            EventDTO eventDTO = new EventDTO(id, name, start_time, end_time, location, repetition);
+                            EventDTO eventDTO = new EventDTO(id, null /*temp*/, name, start_time, end_time, location, repetition);
                             events.Add(eventDTO);
                         }
                     }
@@ -47,7 +47,7 @@ namespace KalenderApp.DAL
             {
                 using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
                 {
-                    string query = "INSERT INTO event (name, start_time, end_time, location, repetition) VALUES (@name, @start_time, @end_time, @location, @repetition)";
+                    string query = "INSERT INTO event (name, start_time, end_time, location, repetition) VALUES (@name, @start_time, @end_time, @location, @repetition);";
                     MySqlCommand command = new MySqlCommand(query, connection);
 
                     command.Parameters.AddWithValue("@name", dto.name);
@@ -58,6 +58,24 @@ namespace KalenderApp.DAL
 
                     connection.Open();
                     command.ExecuteNonQuery();
+                }
+                using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
+                {
+                    string query = "INSERT INTO event_category (event_id, category_id) VALUES (LAST_INSERT_ID(), @category_id);";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    for (int i = 0; i < dto.categoryId.Length; i++)
+                    {
+                        if(command.Parameters.Contains("@category_id"))
+                        {
+                            command.Parameters["@category_id"].Value = dto.categoryId[i];
+                        }
+                        else
+                            command.Parameters.AddWithValue("@category_id", dto.categoryId[i]);
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
                 }
             }
             catch (MySqlException ex)

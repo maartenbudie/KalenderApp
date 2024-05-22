@@ -68,7 +68,7 @@ namespace KalenderApp.Controllers
 
         }
         [HttpPost]
-        public IActionResult AddNewEvent(string name, int categoryid, string startTime, string endTime, string location, string repetition)
+        public IActionResult AddNewEvent(string name, int[] categoryid, string startTime, string endTime, string location, string repetition)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace KalenderApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditEvent(int id, int categoryid, string name, string startTime, string endTime, string location, string repetition)
+        public IActionResult EditEvent(int id, int[] categoryid, string name, string startTime, string endTime, string location, string repetition)
         {
             try
             {
