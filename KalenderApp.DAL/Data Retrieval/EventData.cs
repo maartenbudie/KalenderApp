@@ -96,7 +96,7 @@ namespace KalenderApp.DAL
             {
                 using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
                 {
-                    string query = "DELETE FROM event WHERE id = @id";
+                    string query = "DELETE FROM event, event_category WHERE id = @id OR event_id = @id";
                     MySqlCommand command = new MySqlCommand(query, connection);
 
                     command.Parameters.AddWithValue("@id", id);
