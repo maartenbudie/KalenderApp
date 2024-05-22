@@ -12,7 +12,7 @@ let date = new Date(),
     loadedEvents = [],
     loadedCategories = [],
     dateSelected = date.getDate(),
-    selectedEventId = 0;
+    selectedEventId;
 
 const renderCalendar = () => {
     let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(),
@@ -157,11 +157,11 @@ addEventButton.addEventListener("click", () => {
     addCategoryForm.style.display = "none";
     addEventForm.style.visibility = "visible";
     addEventForm.style.display = "block";
-
+    
     let categories = addEventForm.querySelector("#eventcategory");
-
+    
     categories.innerHTML = "";
-
+    
     for (var i = 0; i < loadedCategories.length; i++) {
         let option = document.createElement("option");
         option.value = loadedCategories[i].id;
@@ -205,14 +205,13 @@ const selectEvent = (id) => {
     editEventForm.style.visibility = "visible";
     editEventForm.style.display = "block";
 };
-
 const editEvent = () => {
     event.preventDefault();
 
     const eventName = editEventForm.querySelector('#editeventname').value;
     const eventStartTime = editEventForm.querySelector('#editeventstarttime').value;
     const eventEndTime = editEventForm.querySelector('#editeventendtime').value;
-    const eventCategory = editEventForm.querySelector('#editeventcategory').value;
+    const eventCategories = $('#editeventcategory').val();
     const eventLocation = editEventForm.querySelector('#editeventlocation').value;
     const eventRepetition = editEventForm.querySelector('#editeventrepetition').value;
 
@@ -222,13 +221,19 @@ const editEvent = () => {
     $.ajax({
         type: "POST",
         url: "/Home/EditEvent",
-        data: { id: selectedEventId, categoryid: eventCategory, name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
-        success: function () {
-            showDateData();
-            editEventForm.style.visibility = "hidden";
+        data: { id: selectedEventId, categoryid: eventCategories, name: eventName, startTime: startDate, endTime: endDate, location: eventLocation, repetition: eventRepetition },
+        success: function (data) {
+            if(data.success){
+                showDateData();
+                editEventForm.style.visibility = "hidden";
+            }
+            else{
+                alert(data.errorMessage);
+            }
         }
     })
 };
+
 const addEvent = () => {
     event.preventDefault();
 

@@ -42,8 +42,8 @@ public class EventService
             if(id < 1) throw new InvalidValueException("Invalid Event");
             if(name == String.Empty) throw new InvalidValueException("Invalid Name: Name can't be empty.");
             if(start < DateTime.Now) throw new InvalidValueException("Invalid Date: Cannot add Event on passed date");
-            if(repetition != "Daily" && repetition != "Weekly" && repetition != "Monthly" && repetition != "Quarterly" && repetition != "Yearly") throw new InvalidValueException("Invalid Repetition.");
-            EventDTO eventDTO = new EventDTO(categoryid, name, start, end, location, repetition);
+            if(repetition != "None" && repetition != "Daily" && repetition != "Weekly" && repetition != "Monthly" && repetition != "Quarterly" && repetition != "Annually") throw new InvalidValueException("Invalid Repetition.");
+            EventDTO eventDTO = new EventDTO(id, categoryid, name, start, end, location, repetition);
             eventData.EditEvent(eventDTO);
         }
         catch(DataException ex){throw ex;}

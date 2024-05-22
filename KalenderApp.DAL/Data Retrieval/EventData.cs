@@ -124,6 +124,33 @@ namespace KalenderApp.DAL
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
+                using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
+                {
+                    string query = "DELETE FROM event_category WHERE event_id = @event_id;";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+
+                    command.Parameters.AddWithValue("@event_id", dto.id);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
+                {
+                    Console.WriteLine("reached");
+                    string query = "INSERT INTO event_category (event_id, category_id) VALUES (@event_id, @category_id);";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    connection.Open();
+                    for (int i = 0; i < dto.categoryId.Count; i++)
+                    {
+                        if (command.Parameters.Contains("@category_id"))
+                            command.Parameters["@category_id"].Value = dto.categoryId[i];
+                        else
+                            command.Parameters.AddWithValue("@category_id", dto.categoryId[i]);
+                        command.Parameters.AddWithValue("@event_id", dto.id);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
             }
             catch (MySqlException ex)
             {
@@ -136,7 +163,7 @@ namespace KalenderApp.DAL
             {
                 using (MySqlConnection connection = new MySqlConnection(DatabaseClass.connectionString))
                 {
-                    string query = "DELETE FROM event WHERE id = @id";
+                    string query = "DELETE FROM event WHERE id = @id; DELETE FROM event_category where event_id = @id";
                     MySqlCommand command = new MySqlCommand(query, connection);
 
                     command.Parameters.AddWithValue("@id", id);
