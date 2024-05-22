@@ -27,7 +27,6 @@ public class EventService
     {
         try
         {
-            Console.WriteLine(repetition);
             if(name == String.Empty) throw new InvalidValueException("Invalid Name: Name can't be empty.");
             if(start < DateTime.Now) throw new InvalidValueException("Invalid Date: Cannot add Event on passed date");
             if(repetition != "None" && repetition != "Daily" && repetition != "Weekly" && repetition != "Monthly" && repetition != "Quarterly" && repetition != "Annually") throw new InvalidValueException("Invalid Repetition.");
