@@ -141,11 +141,11 @@ namespace KalenderApp.Controllers
         {
             ICategoryData categoryData = new CategoryData();
             CategoryService categoryService = new CategoryService(categoryData);
-            List<CategoryEntity> categoryEntities = categoryService.GetAllCategories();
-            List<object> categories = new List<object>();
 
             try
             {
+                List<CategoryEntity> categoryEntities = categoryService.GetAllCategories();
+                List<object> categories = new List<object>();
 
                 foreach (CategoryEntity category in categoryEntities)
                 {
