@@ -145,8 +145,10 @@ namespace KalenderApp.DAL
                         if (command.Parameters.Contains("@category_id"))
                             command.Parameters["@category_id"].Value = dto.categoryId[i];
                         else
+                        {
                             command.Parameters.AddWithValue("@category_id", dto.categoryId[i]);
-                        command.Parameters.AddWithValue("@event_id", dto.id);
+                            command.Parameters.AddWithValue("@event_id", dto.id);
+                        }
 
                         command.ExecuteNonQuery();
                     }
