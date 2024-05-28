@@ -27,8 +27,13 @@ public class EventService
     {
         try
         {
+            foreach(int id in categoryid)
+            {
+                if (id < 1) throw new InvalidValueException("Invalid Category");
+            }
             if(name == String.Empty) throw new InvalidValueException("Invalid Name: Name can't be empty.");
             if(start < DateTime.Now) throw new InvalidValueException("Invalid Date: Cannot add Event on passed date");
+            if (end < start) throw new InvalidValueException("Invalid Date: End cannot be before start");
             if(repetition != "None" && repetition != "Daily" && repetition != "Weekly" && repetition != "Monthly" && repetition != "Quarterly" && repetition != "Annually") throw new InvalidValueException("Invalid Repetition.");
             EventDTO eventDTO = new EventDTO(categoryid, name, start, end, location, repetition);
             eventData.AddNewEvent(eventDTO);
@@ -40,8 +45,14 @@ public class EventService
         try
         {
             if(id < 1) throw new InvalidValueException("Invalid Event");
-            if(name == String.Empty) throw new InvalidValueException("Invalid Name: Name can't be empty.");
-            if(repetition != "None" && repetition != "Daily" && repetition != "Weekly" && repetition != "Monthly" && repetition != "Quarterly" && repetition != "Annually") throw new InvalidValueException("Invalid Repetition.");
+            foreach (int catid in categoryid)
+            {
+                if (catid < 1) throw new InvalidValueException("Invalid Category");
+            }
+            if (name == String.Empty) throw new InvalidValueException("Invalid Name: Name can't be empty.");
+            if (start < DateTime.Now) throw new InvalidValueException("Invalid Date: Cannot add Event on passed date");
+            if (end < start) throw new InvalidValueException("Invalid Date: End cannot be before start");
+            if (repetition != "None" && repetition != "Daily" && repetition != "Weekly" && repetition != "Monthly" && repetition != "Quarterly" && repetition != "Annually") throw new InvalidValueException("Invalid Repetition.");
             EventDTO eventDTO = new EventDTO(id, categoryid, name, start, end, location, repetition);
             eventData.EditEvent(eventDTO);
         }
